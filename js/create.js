@@ -6,8 +6,8 @@ function create() {
 
     starfield = game.add.tileSprite(0, 0, 800, 600, 'stars');
 
-    createEnemies();
     createVirus();
+    createEnemies(ship);
 
     cursors = game.input.keyboard.createCursorKeys();
 
