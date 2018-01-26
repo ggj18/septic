@@ -27,5 +27,4 @@ function enemyCollide(body1, body2, fixture1, fixture2, begin) {
         //console.log(Object.getOwnPropertyNames(body1));
         //console.log(body1.sprite);
     }
-    
 }
