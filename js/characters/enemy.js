@@ -6,6 +6,10 @@ function createEnemy() {
     sprite.body.setCircle(16);
     //sprite.body.collideWorldBounds = false;
 
+    sprite.eat = function(virus){
+        
+    };
+
     sprite.body.setBodyContactCallback(ship.body, onCollision, this);
     return sprite;
 }
@@ -20,3 +24,5 @@ function createEnemies(ship) {
         createEnemy();
     }
 }
+
+
