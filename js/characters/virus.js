@@ -9,4 +9,8 @@ function createVirus() {
     game.physics.box2d.enable(virus, false);
     virus.body.fixedRotation = true;
     virus.body.setCircle(28);
+
+    virus.eat = function(cell){
+
+    };
 }
