@@ -6,11 +6,11 @@ function createEnemy() {
     sprite.body.setCircle(16);
     //sprite.body.collideWorldBounds = false;
 
-    sprite.body.setBodyContactCallback(ship.body, onCollision, this);
+    sprite.body.setBodyContactCallback(virus.body, onCollision, this);
     return sprite;
 }
 
-function createEnemies(ship) { 
+function createEnemies(virus) {
     balls = game.add.group();
     balls.enableBody = true;
     balls.physicsBodyType = Phaser.Physics.BOX2D;

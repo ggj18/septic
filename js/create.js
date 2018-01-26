@@ -8,13 +8,13 @@ function create() {
     starfield = game.add.tileSprite(0, 0, 800, 600, 'stars');
 
     createVirus();
-    createEnemies(ship);
+    createEnemies(virus);
 
     cursors = game.input.keyboard.createCursorKeys();
 
     game.add.text(5,  5, 'Use arrow keys to move.', { fill: '#ffffff', font: '14pt Arial' });
     game.add.text(5, 25, 'Rectangle shapes are set to ignore world boundaries.', { fill: '#ffffff', font: '14pt Arial' });
 
-    game.camera.follow(ship, Phaser.Camera.FOLLOW_TOPDOWN);
-    
+    game.camera.follow(virus, Phaser.Camera.FOLLOW_TOPDOWN);
+
 }
