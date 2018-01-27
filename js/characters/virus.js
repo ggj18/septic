@@ -112,7 +112,7 @@ function updateVirusSize(virus)
 
 function createVirus() {
 
-    var virus = game.add.sprite(200, 200, getVirusArt(1, front=false));
+    var virus = game.add.sprite(1770, 125, getVirusArt(1, front=false));
     var spriteFront = game.add.sprite(0, 0, getVirusArt(1, front=true));
     spriteFront.anchor.x = 0.5;
     spriteFront.anchor.y = 0.5;
