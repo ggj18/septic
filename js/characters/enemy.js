@@ -174,8 +174,8 @@ function createEnemy(i, posX, posY, cells, cellType, cellSize) {
             speed = CELL_SPEED;
             acceleration = CELL_ACCELERATION;
 
-            // Smaller Red cells run away!
-            if(this.s_size <= virus.s_size && this.s_cellType != "white")
+            // Smaller cells run away!
+            if(this.s_size <= virus.s_size)
             {
                 x = x * -1.0;
                 y = y * -1.0;

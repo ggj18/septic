@@ -71,4 +71,6 @@ function update() {
     {
         updateVirusSize(virus);
     }
+
+    updateCameraZoom();
 }

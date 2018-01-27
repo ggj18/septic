@@ -1,10 +1,4 @@
 
-// Get the linear interpolation between two value
-function lerp(value1, value2, amount) {
-    amount = amount < 0 ? 0 : amount;
-    amount = amount > 1 ? 1 : amount;
-    return value1 + (value2 - value1) * amount;
-}
 
 function getVirusArt(size, front=true){
     if(size <= 30)
@@ -56,7 +50,7 @@ function getVirusArtScale(size){
 function growVirus(enemySize)
 {
 	var virus = state.virus;
-	virus.s_size += 1;
+	virus.s_size += 2;
 	// We can't update our circle size mid-collision, else we crash the physics. Do it in a future update cycle
 	virus.s_doUpdateSize = true;
 	virus.angularVelocity += 0.5;
@@ -89,6 +83,10 @@ function updateVirusSize(virus)
 
     // Update physics circle
     virus.body.setCircle(250 * virus.s_art_scale); //Radius of art asset * scale factor
+
+    // Update camera zoom
+    var zoomTarget = lerp(1.0, 0.0, virus.s_size / 100);
+    setCameraZoomTarget(zoomTarget);
 
     /*
 	// Update game world scale
