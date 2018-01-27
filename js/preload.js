@@ -10,6 +10,12 @@ function preload() {
     game.load.image('WBClargeFront', 'assets/sprites/WBClargeFront.png');
     game.load.image('WBClargeBack', 'assets/sprites/WBClargeBack.png');
     game.load.image('firstaid', 'assets/sprites/firstaid.png');
+    game.load.spritesheet('virus', 'assets/sprites/virus01.png');
+
+    game.load.image('background', 'assets/tilemaps/BGparallax01.png');
+    game.load.image('workaround', 'assets/sprites/super-workaround.png');
+
+    game.load.physics('physicsData', 'assets/physics/background-physics.json');
     game.load.image('virusSmallFront', 'assets/sprites/virusSmallFront.png');
     game.load.image('virusSmallBack', 'assets/sprites/virusSmallBack.png');
 }

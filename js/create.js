@@ -9,9 +9,11 @@ state = {
 function create() {
     game.physics.startSystem(Phaser.Physics.BOX2D);
     game.physics.box2d.restitution = 0.9;
-    game.world.setBounds(0, 0, 1920, 1920);
+    game.world.setBounds(0, 0, 2000, 2500);
     game.physics.box2d.setBoundsToWorld();
+    game.stage.backgroundColor = '#ffffff';
 
+    createBackground();
     state.virus = createVirus();
     state.cells = createEnemies(state.virus);
 
