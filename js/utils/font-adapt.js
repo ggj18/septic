@@ -12,25 +12,22 @@ function createWebFontConfig (game) {
   }
 }
 
-function createText (game, textContent, textAttributes) {
-  if(!textAttributes) {
-    textAttributes = {}
-  }
+function createText (game, textContent) {
+    var textAttributes = {}
 
-  var posX = textAttributes.posX ? textAttributes.posX : game.world.centerX
-  var posY = textAttributes.posY ? textAttributes.posY : game.world.centerY
+  var posX = 512
+  var posY = 384
 
   var defaults = {
-    font: 'Press Start 2P',
-    fontSize: 60,
+    // font: 'Arial',
+    fontSize: 2000,
     align: 'center',
     stroke: '#000000',
-    strokeThickness: 2,
+    strokeThickness: 1,
     fill: "#8ED6FF"
   }
 
-  var styles = Object.assign(defaults, textAttributes)
-  var text = game.add.text(posX, posY, textContent, styles)
+  var text = game.add.text(posX, posY, textContent, defaults)
 
   if(!textAttributes.noGradient) {
     var grd = text.context.createLinearGradient(0, 0, 0, text.canvas.height)

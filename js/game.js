@@ -7,6 +7,7 @@ function lose() {
 }
 
 function stateCommon(obj) {
+    game.world.scale.setTo(1, 1);
     game.stage.backgroundColor = '#000000';
 }
 

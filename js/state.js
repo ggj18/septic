@@ -1,8 +1,6 @@
-var playState = { preload: preload, create: create, update: update, render:
-  render };
-
 var bootState = {
   create: function () {
+    // createWebFontConfig(game)
     game.physics.startSystem(Phaser.Physics.BOX2D);
     space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
@@ -10,10 +8,17 @@ var bootState = {
   }
 }
 
+var playState = {
+    preload: preload,
+    create: create,
+    update: update,
+    render: render
+};
+
 var splashState = {
   create: function () {
-    createText(game, overlayMsg.start);
     stateCommon(this);
+    var startText = createText(game, overlayMsg.start);
     game.state.add('play', playState);
   },
   update: function () {
@@ -23,8 +28,8 @@ var splashState = {
 
 var winState = {
   create: function () {
-    createText(game, overlayMsg.win);
     stateCommon(this);
+    createText(game, overlayMsg.win);
   },
   update: function () {
     checkSpacePressed();
@@ -33,8 +38,9 @@ var winState = {
 
 var loseState = {
   create: function () {
-    createText(game, overlayMsg.lose);
+    // game.world.scale.setTo(1, 1);
     stateCommon(this);
+    var loseText = createText(game, overlayMsg.lose);
   },
   update: function () {
     checkSpacePressed();
