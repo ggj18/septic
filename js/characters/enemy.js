@@ -15,9 +15,11 @@ function normalize(point, scale) {
 
 function createEnemy(i) {
 
-    var sprite = cells.create(game.world.randomX, game.world.randomY, 'cell');
+    //var sprite = cells.create(game.world.randomX, game.world.randomY, 'cell');
     // DEBUG
-    //var sprite = cells.create(350, 350, 'cell');
+    var sprite = cells.create(350, 350, 'cell');
+
+    //sprite.addChild(game.add.sprite('virus'));
 
     // Physics properties
     sprite.body.setCircle(16);
@@ -27,7 +29,7 @@ function createEnemy(i) {
     // Game properties
     sprite.s_agroDistance = CELL_AGRO_DISTANCE;
     sprite.s_isChasing = false;
-    if(i % 2 == 0)
+    if(i % 2 == 1)
     {
         sprite.s_cellType = "white";
     }
@@ -58,31 +60,52 @@ function createEnemy(i) {
             var y = virus.y - this.y;
             var norm = Math.sqrt(x * x + y * y);
             if (norm != 0) { // as3 return 0,0 for a point of zero length
-                x = 1.0 * x / norm;
-                y = 1.0 * y / norm;
+                x = x / norm;
+                y = y / norm;
             }
 
-            if (this.s_swarm)
+            if (sprite.s_cellType == "white")
             {
                 // Set velocity to vector directly
                 this.body.velocity.x = x * CELL_SPEED;
                 this.body.velocity.y = y * CELL_SPEED;
             } else {
-                // Add vector to current speed
+
+                // x
                 velocity = this.body.velocity.x;
                 velocity += CELL_ACCELERATION * x;
-                if (velocity >= CELL_SPEED)
+                if(x < 0)
                 {
-                    velocity = CELL_SPEED;
+                    if (velocity > CELL_SPEED)
+                    {
+                        velocity = CELL_SPEED;
+                    }
+                }
+                else
+                {
+                    if (velocity < (CELL_SPEED * -1.0))
+                    {
+                        velocity = (CELL_SPEED * -1.0);
+                    }
                 }
                 this.body.velocity.x = velocity;
                 
-
+                // y
                 velocity = this.body.velocity.y;
                 velocity += CELL_ACCELERATION * y;
-                if (velocity < CELL_SPEED)
+                if(y < 0)
                 {
-                    velocity = CELL_SPEED;
+                    if (velocity > CELL_SPEED)
+                    {
+                        velocity = CELL_SPEED;
+                    }
+                }
+                else
+                {
+                    if (velocity < (CELL_SPEED * -1.0))
+                    {
+                        velocity = (CELL_SPEED * -1.0);
+                    }
                 }
                 this.body.velocity.y = velocity;
             }
@@ -104,7 +127,7 @@ function createEnemies(virus) {
     cells.enableBody = true;
     cells.physicsBodyType = Phaser.Physics.BOX2D;
 
-    for (var i = 0; i < 50; i++)
+    for (var i = 0; i < 1; i++)
     {
         createEnemy(i);
     }
