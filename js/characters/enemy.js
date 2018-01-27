@@ -155,7 +155,6 @@ function createEnemy(i, posX, posY, cells, cellType, cellSize) {
             this.s_isChasing = false;
         }
 
-
         // Choose direction
         var x = 0.0;
         var y = 0.0;
@@ -172,15 +171,16 @@ function createEnemy(i, posX, posY, cells, cellType, cellSize) {
                 y = y / norm;
             }
 
+            maxSpeed = CELL_SPEED;
+            acceleration = CELL_ACCELERATION;
+
             // Smaller Red cells run away!
             if(this.s_size <= virus.s_size && this.s_cellType != "white")
             {
                 x = x * -1.0;
                 y = y * -1.0;
+                acceleration = CELL_ACCELERATION * 0.5;
             }
-
-            maxSpeed = CELL_SPEED;
-            acceleration = CELL_ACCELERATION;
         }
         else
         {
