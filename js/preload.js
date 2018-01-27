@@ -8,7 +8,7 @@ function preload() {
     game.load.image('WBClargeBack', 'assets/sprites/WBClargeBack.png');
     game.load.spritesheet('virus', 'assets/sprites/virus01.png');
 
-    game.load.image('background', 'assets/tilemaps/collisionLayer.png');
+    game.load.image('background', 'assets/tilemaps/BGPlaceholder.png');
     game.load.image('workaround', 'assets/sprites/super-workaround.png');
 
     game.load.physics('physicsData', 'assets/physics/background-physics.json');
