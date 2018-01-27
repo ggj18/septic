@@ -1,18 +1,20 @@
 
 function collideWithEnemy(enemyCellBody, virus, fixture1, fixture2, begin) {
 
-  if(!begin) {
-    return;
-  }
+    if(!begin) {
+        return;
+    }
 
-  virusSize = virus.sprite.s_size;
-  console.log(virusSize, enemyCellBody.sprite.s_size);
+    if(virus.sprite.s_size > enemyCellBody.sprite.s_size)
+    {
+        killCell(enemyCellBody, virus.body);
+    }
   
 }
 
 function killCell(enemyCellBody, virusBody) {
-  enemyCellBody.sprite.destroy();
-  enemyCellBody.destroy();
 
-  virus.angularVelocity += 0.5;
+    growVirus(enemyCellBody.sprite.s_size);
+    enemyCellBody.sprite.destroy();
+    enemyCellBody.destroy();
 }

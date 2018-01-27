@@ -3,6 +3,7 @@ CELL_AGRO_DISTANCE = 300.0;
 CELL_SPEED = 100.0;
 CELL_ACCELERATION = 5.0;
 CELL_LINEAR_DAMPING = 0.5;
+CELL_DISABLE_MOVEMENT = true;
 
 function normalize(point, scale) {
     var norm = Math.sqrt(point.x * point.x + point.y * point.y);
@@ -13,7 +14,7 @@ function normalize(point, scale) {
     return point;
 }
 
-function getArt(size, cellType, front=true){
+function getCellArt(size, cellType, front=true){
     if(cellType == "white")
     {
         if(size <= 3)
@@ -38,7 +39,7 @@ function getArt(size, cellType, front=true){
     }
 }
 
-function getArtScale(size){
+function getCellArtScale(size){
     // The size determines the scaler for art/physics
     // Map size 1-10 to 0.1-1.0
     return size / 10.0;
@@ -50,19 +51,19 @@ function createEnemy(i, posX, posY, cells, cellType, cellSize) {
     var sprite;
     if(cellType == "white")
     {
-        sprite = cells.create(posX, posY, getArt(cellSize, cellType, front=false));
-        var spriteFront = game.add.sprite(0, 0, getArt(cellSize, cellType, front=true));
+        sprite = cells.create(posX, posY, getCellArt(cellSize, cellType, front=false));
+        var spriteFront = game.add.sprite(0, 0, getCellArt(cellSize, cellType, front=true));
         spriteFront.anchor.x = 0.5;
         spriteFront.anchor.y = 0.5;
         sprite.addChild(spriteFront);
     }
     else
     {
-        sprite = cells.create(posX, posY, getArt(cellSize, cellType, front=false));
+        sprite = cells.create(posX, posY, getCellArt(cellSize, cellType, front=false));
     }
     sprite.s_cellType =cellType;
     sprite.s_size = cellSize;
-    sprite.s_art_scale = getArtScale(sprite.s_size);
+    sprite.s_art_scale = getCellArtScale(sprite.s_size);
 
     // Physics properties
     sprite.body.setCircle(235 * sprite.s_art_scale); // Pixel radius of art asset * scaler
@@ -79,6 +80,10 @@ function createEnemy(i, posX, posY, cells, cellType, cellSize) {
     sprite.s_number = i;
 
     sprite.updatePosition = function(){
+
+        if(CELL_DISABLE_MOVEMENT)
+            return;
+
         var distance = Math.sqrt((Math.pow(virus.x - this.x, 2) + Math.pow(virus.y - this.y, 2)))
         if(distance < this.s_agroDistance)
         {
@@ -179,9 +184,9 @@ function createEnemies(virus) {
     // DEBUG
     var x = 300; // = game.world.randomX
     var y = 300; // = game.world.randomY
-    var size = 1; // =  Math.floor((Math.random() * 10) + 1)
     for (var i = 0; i < 10; i++)
     {
+        var size =  Math.floor((Math.random() * 5) + 1)
         var cellType = "white";
         if(i % 2 == 1)
         {
