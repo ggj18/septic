@@ -36,7 +36,7 @@ var bootState = {
 
 var splashState = {
   create: function () {
-    addText('Press space to restart.');
+    addText('You can eat things smaller than you, bigger things kill you. Press space to start.');
     stateCommon(this);
   },
   update: function () {
