@@ -4,6 +4,6 @@ function preload() {
     game.load.image('cell', 'assets/sprites/shinyball.png');
     game.load.image('redCell', 'assets/sprites/redBloodCell.png');
     game.load.image('firstaid', 'assets/sprites/firstaid.png');
-    game.load.spritesheet('virus', 'assets/sprites/humstar.png', 32, 32);
+    game.load.spritesheet('virus', 'assets/sprites/virus01.png');
 
 }

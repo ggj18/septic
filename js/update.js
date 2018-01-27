@@ -1,8 +1,10 @@
-PLAYER_ACCELERATION = 5.0;
-PLAYER_MAX_SPEED = 200.0;
-PLAYER_LINEAR_DAMPING = 0.5;
-
 function update() {
+    var virus = state.virus;
+
+    PLAYER_ACCELERATION = 5.0;
+    PLAYER_MAX_SPEED = 200.0;
+    PLAYER_LINEAR_DAMPING = 0.5;
+
     virus.body.linearDamping = PLAYER_LINEAR_DAMPING;
 
     if (cursors.left.isDown)
@@ -48,8 +50,8 @@ function update() {
     }
 
     // Update all enemies
-    var arrayLength = cells.children.length;
+    var arrayLength = state.cells.children.length;
     for (var i = 0; i < arrayLength; i++) {
-        cells.children[i].updatePosition();
+        state.cells.children[i].updatePosition();
     }
 }

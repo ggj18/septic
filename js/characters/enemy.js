@@ -13,8 +13,10 @@ function normalize(point, scale) {
     return point;
 }
 
-function createEnemy(i, posX, posY) {
+function createEnemy(i, posX, posY, cells) {
+   var virus = state.virus;
     var sprite = cells.create(posX, posY, 'redCell');
+    sprite.s_size = 1;
 
     // TODO: Hook up to size
     var size_scaler = 0.5;
@@ -116,13 +118,13 @@ function createEnemy(i, posX, posY) {
 
     };
 
-    sprite.body.setBodyContactCallback(virus.body, onCollision, this);
+    sprite.body.setBodyContactCallback(state.virus.body, collideWithEnemy, this);
 
     return sprite;
 }
 
 function createEnemies(virus) {
-    cells = game.add.group();
+    var cells = game.add.group();
     cells.enableBody = true;
     cells.physicsBodyType = Phaser.Physics.BOX2D;
 
@@ -130,6 +132,8 @@ function createEnemies(virus) {
     {
         // TODO: Don't spawn near player
         // TODO: randomX should take into account sprite size so it doesnt spawn in a wall
-        createEnemy(i, game.world.randomX, game.world.randomY);
+        enemy = createEnemy(i, game.world.randomX, game.world.randomY, cells);
     }
+
+    return cells;
 }
