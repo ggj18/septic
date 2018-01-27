@@ -42,7 +42,7 @@ function getCellArt(size, cellType, front=true){
 function getCellArtScale(size){
     // The size determines the scaler for art/physics
     // Map size 1-10 to 0.1-1.0
-    return size / 10.0;
+    return size / 20.0;
 }
 
 function createEnemy(i, posX, posY, cells, cellType, cellSize) {
@@ -184,9 +184,10 @@ function createEnemies(virus) {
     // DEBUG
     var x = 300; // = game.world.randomX
     var y = 300; // = game.world.randomY
+    var size = 1;
     for (var i = 0; i < 10; i++)
     {
-        var size =  Math.floor((Math.random() * 5) + 1)
+        //var size =  Math.floor((Math.random() * 5) + 1)
         var cellType = "white";
         if(i % 2 == 1)
         {
@@ -197,6 +198,7 @@ function createEnemies(virus) {
         enemy = createEnemy(i, x, y, cells, cellType, size);
         x+= 200;
         y+= 200;
+        size += 1;
     }
 
     return cells;
