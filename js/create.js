@@ -8,7 +8,7 @@ state = {
 
 function create() {
     game.physics.box2d.restitution = 0.9;
-    game.world.setBounds(0, 0, 7000, 5600);
+    game.world.setBounds(0, 0, 5600, 7000);
     game.physics.box2d.setBoundsToWorld();
     game.stage.backgroundColor = '#ffffff';
     game.world.scale.setTo(0.5, 0.5);
