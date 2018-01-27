@@ -1,5 +1,5 @@
 
-function onCollision(body1, body2, fixture1, fixture2, begin) {
+function collideWithEnemy(body1, body2, fixture1, fixture2, begin) {
     // If 'begin' is true this is a begin contact, otherwise a contact has just ended    ... do something
     if (begin){
         // body1 == enemy, body2 == ship

@@ -1,4 +1,5 @@
 function update() {
+    var virus = state.virus;
 
     virus.body.setZeroVelocity();
 
