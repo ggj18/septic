@@ -39,7 +39,8 @@ function getCellArt(size, cellType, front=true){
     }
     else
     {
-        return "redCell";
+        if(front) return "redCell";
+        else return "redCellGlow";
     }
 }
 
@@ -109,6 +110,10 @@ function createEnemy(i, posX, posY, cells, cellType, cellSize) {
     else
     {
         sprite = cells.create(posX, posY, getCellArt(cellSize, cellType, front=false));
+        var spriteFront = game.add.sprite(0, 0, getCellArt(cellSize, cellType, front=true));
+        spriteFront.anchor.x = 0.5;
+        spriteFront.anchor.y = 0.5;
+        sprite.addChild(spriteFront);
     }
 
 
@@ -272,7 +277,18 @@ var spawnLocations = [
   [3175, 3900],
   [3000, 6000],
 ]
+var miniSpawnLocations = [
+  [4800, 960],
+  [3400, 660],
+  [22300, 640],
+  [1200, 470],
+  [740, 1800],
+  [3800, 130],
+  [3300, 270],
+]
+
 var TOTAL_ENEMIES = 30 * spawnLocations.length;
+var TOTAL_ENEMIES_MINI = 3 * miniSpawnLocations.length;
 
 /**
  * Returns a "random" number between 0 and 4 giving preference to smaller numbers.
@@ -296,17 +312,36 @@ function createEnemies(virus) {
     cells.enableBody = true;
     cells.physicsBodyType = Phaser.Physics.BOX2D;
 
+    // Major spawns
     for (var i = 0; i < TOTAL_ENEMIES; i++) {
       var randomSpawnpoint = spawnLocations[Math.floor(Math.random()*spawnLocations.length)]
+      var x = randomSpawnpoint[0] + (Math.random() * 300);
+      var y = randomSpawnpoint[1] + (Math.random() * 300); 
+
+      var nb = getRandomEnemySize();
+      var size = (nb * 20) + 1;
+
+      var cellType = "red";
+      if(i % 5 == 1) {
+          cellType = "white";
+      }
+
+      enemy = createEnemy(i, x, y, cells, cellType, size);
+    }
+
+    // Minor spawns
+    for (var i = 0; i < TOTAL_ENEMIES_MINI; i++) {
+      var randomSpawnpoint = miniSpawnLocations[Math.floor(Math.random()*miniSpawnLocations.length)]
       var x = randomSpawnpoint[0];
       var y = randomSpawnpoint[1]; 
 
       var nb = getRandomEnemySize();
       var size = (nb * 20) + 1;
 
-      var cellType = "white";
-      if(i % 2 == 1) {
-          cellType = "red";
+      var cellType = "red";
+      var nb = randomNb(0, 100);
+      if(nb > 80) {
+          cellType = "white";
       }
 
       enemy = createEnemy(i, x, y, cells, cellType, size);

@@ -56,7 +56,7 @@ function growVirus(enemySize)
 	virus.angularVelocity += 0.5;
 
 	// Update camera zoom at certain intervals
-	var zoomOutSizes = [30, 31, 60, 61, 90, 91, 100]; 
+	var zoomOutSizes = [30, 31, 60, 61, 90, 91, 100];
 	if(zoomOutSizes.indexOf(virus.s_size) != -1)
 	{
     	var zoomTarget = lerp(1.0, 0.0, virus.s_size / 100);
