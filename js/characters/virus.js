@@ -7,12 +7,12 @@ function lerp(value1, value2, amount) {
 }
 
 function getVirusArt(size, front=true){
-    if(size <= 3)
+    if(size <= 30)
     {
         if(front) return "virusSmallFront";
         else return "virusSmallBack";
     }
-    else if(size <= 6)
+    else if(size <= 60)
     {
         if(front) return "virusMidFront";
         else return "virusMidBack";
@@ -26,8 +26,31 @@ function getVirusArt(size, front=true){
 
 function getVirusArtScale(size){
     // The size determines the scaler for art/physics
-    // Map size 1-10 to 0.1-1.0
-    return (size - 1) / 20.0;
+    // Map size 1-100 to 0.1-1.0
+   	var result = 0.5;
+    if(size < 10)
+    {
+        result = 0.05;
+    } else if (size < 20) {
+        result = 0.10;
+    } else if (size < 30) {
+        result = 0.15;
+    } else if (size < 40) {
+        result = 0.20;
+    } else if (size < 50) {
+        result = 0.25;
+    } else if (size < 60) {
+        result = 0.30;
+    } else if (size < 70) {
+        result = 0.35;
+    } else if (size < 80) {
+        result = 0.40;
+    } else if (size < 90) {
+        result = 0.45;
+    } else {
+        result = 0.5;
+    }
+    return result;
 }
 
 function growVirus(enemySize)
@@ -42,7 +65,7 @@ function growVirus(enemySize)
 function shrinkVirus(enemySize)
 {
 	var virus = state.virus;
-	virus.s_size -= 1;
+	virus.s_size -= 10;
 	// We can't update our circle size mid-collision, else we crash the physics. Do it in a future update cycle
 	virus.s_doUpdateSize = true;
 	virus.angularVelocity -= 0.5;
@@ -65,8 +88,9 @@ function updateVirusSize(virus)
     virus.scale.set(virus.s_art_scale);
 
     // Update physics circle
-    virus.body.setCircle(235 * virus.s_art_scale); //Radius of art asset * scale factor
+    virus.body.setCircle(250 * virus.s_art_scale); //Radius of art asset * scale factor
 
+    /*
 	// Update game world scale
 	// Size 1 = scale 1. Size 10 = scale 0.4
     if(virus.s_size <= 3)
@@ -81,6 +105,7 @@ function updateVirusSize(virus)
     {
         game.world.scale.setTo(0.4, 0.4);
     }
+    */
 
     virus.s_doUpdateSize = false;
 }

@@ -1,5 +1,5 @@
 
-CELL_AGRO_DISTANCE = 300.0;
+CELL_AGRO_DISTANCE = 200.0;
 CELL_SPEED = 100.0;
 CELL_ACCELERATION = 5.0;
 CELL_LINEAR_DAMPING = 0.5;
@@ -21,12 +21,12 @@ function normalize(point, scale) {
 function getCellArt(size, cellType, front=true){
     if(cellType == "white")
     {
-        if(size <= 3)
+        if(size <= 30)
         {
             if(front) return "WBCsmallFront";
             else return "WBCsmallBack";
         }
-        else if(size <= 6)
+        else if(size <= 60)
         {
             if(front) return "WBCmedFront";
             else return "WBCmedBack";
@@ -45,8 +45,32 @@ function getCellArt(size, cellType, front=true){
 
 function getCellArtScale(size){
     // The size determines the scaler for art/physics
-    // Map size 1-10 to 0.1-1.0
-    return size / 20.0;
+    // Map size 1-100 to 0.05-0.5
+    var result = 0.5;
+    if(size < 10)
+    {
+        result = 0.05;
+    } else if (size < 20) {
+        result = 0.10;
+    } else if (size < 30) {
+        result = 0.15;
+    } else if (size < 40) {
+        result = 0.20;
+    } else if (size < 50) {
+        result = 0.25;
+    } else if (size < 60) {
+        result = 0.30;
+    } else if (size < 70) {
+        result = 0.35;
+    } else if (size < 80) {
+        result = 0.40;
+    } else if (size < 90) {
+        result = 0.45;
+    } else {
+        result = 0.5;
+    }
+
+    return result;
 }
 
 function cellDeathAnim(cell)
@@ -211,6 +235,23 @@ var spawnLocations = [
   [900, 662],
 ]
 
+/**
+ * Returns a "random" number between 0 and 4 giving preference to smaller numbers.
+ */
+function getRandomEnemySize() {
+  var SMALL_THRESHOLD = 75;
+  var MEDIUM_THRESHOLD = 90;
+
+  var nb = randomNb(0, 100);
+  if(nb < SMALL_THRESHOLD) {
+    return 0;
+  } else if (nb < MEDIUM_THRESHOLD) {
+    return randomNb(1,2);
+  } else {
+    return randomNb(3,4);
+  }
+}
+
 function createEnemies(virus) {
     var cells = game.add.group();
     cells.enableBody = true;
@@ -221,7 +262,7 @@ function createEnemies(virus) {
       var x = randomSpawnpoint[0];
       var y = randomSpawnpoint[1]; 
 
-      var nb = Math.floor((Math.random() * 5) + 1);
+      var nb = getRandomEnemySize();
       var size = (nb * 20) + 1;
 
       var cellType = "white";
@@ -230,7 +271,6 @@ function createEnemies(virus) {
       }
 
       enemy = createEnemy(i, x, y, cells, cellType, size);
-
     }
 
     return cells;
