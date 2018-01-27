@@ -1,5 +1,6 @@
 function preload() {
     game.load.image('redCell', 'assets/sprites/redBloodCell.png');
+    game.load.image('redCellGlow', 'assets/sprites/redBloodCell_glow.png');
     game.load.image('WBCsmallFront', 'assets/sprites/WBCsmallFront.png');
     game.load.image('WBCsmallBack', 'assets/sprites/WBCsmallBack.png');
     game.load.image('WBCmedFront', 'assets/sprites/WBCmedFront.png');
@@ -8,7 +9,7 @@ function preload() {
     game.load.image('WBClargeBack', 'assets/sprites/WBClargeBack.png');
     game.load.spritesheet('virus', 'assets/sprites/virus01.png');
 
-    game.load.image('background', 'assets/tilemaps/BGPlaceholder.png');
+    game.load.image('background', 'assets/tilemaps/Background.png');
     game.load.image('workaround', 'assets/sprites/super-workaround.png');
 
     game.load.physics('physicsData', 'assets/physics/background-physics.json');
