@@ -2,9 +2,9 @@ function createEnemy(cells, virus, size) {
     var cell = cells.create(game.world.randomX, game.world.randomY, 'cell');
 
     cell.body.setCircle(16);
-    //cell.body.collideWorldBounds = false;
-
     cell.body.setBodyContactCallback(virus.body, collideWithEnemy, this);
+
+    cell.s_size = 1;
 
     return cell;
 }

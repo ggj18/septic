@@ -7,9 +7,7 @@ function createVirus() {
     game.physics.box2d.enable(virus, false);
     virus.body.setCircle(28);
 
-    virus.eat = function(cell){
-
-    };
+    virus.s_size = 2;
 
     return virus
 }
