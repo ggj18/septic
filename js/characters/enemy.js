@@ -13,33 +13,67 @@ function normalize(point, scale) {
     return point;
 }
 
-function createEnemy(i, posX, posY, cells) {
-   var virus = state.virus;
-    var sprite = cells.create(posX, posY, 'redCell');
-    sprite.s_size = 1;
+function getArt(size, cellType, front=true){
+    if(cellType == "white")
+    {
+        if(size <= 3)
+        {
+            if(front) return "WBCsmallFront";
+            else return "WBCsmallBack";
+        }
+        else if(size <= 6)
+        {
+            if(front) return "WBCmedFront";
+            else return "WBCmedBack";
+        }
+        else
+        {
+            if(front) return "WBClargeFront";
+            else return "WBClargeBack";
+        }
+    }
+    else
+    {
+        return "redCell";
+    }
+}
 
-    // TODO: Hook up to size
-    var size_scaler = 0.5;
+function getArtScale(size){
+    // The size determines the scaler for art/physics
+    // Map size 1-10 to 0.1-1.0
+    return size / 10.0;
+}
+
+function createEnemy(i, posX, posY, cells, cellType, cellSize) {
+    var virus = state.virus;
+
+    var sprite;
+    if(cellType == "white")
+    {
+        sprite = cells.create(posX, posY, getArt(cellSize, cellType, front=false));
+        var spriteFront = game.add.sprite(0, 0, getArt(cellSize, cellType, front=true));
+        spriteFront.anchor.x = 0.5;
+        spriteFront.anchor.y = 0.5;
+        sprite.addChild(spriteFront);
+    }
+    else
+    {
+        sprite = cells.create(posX, posY, getArt(cellSize, cellType, front=false));
+    }
+    sprite.s_cellType =cellType;
+    sprite.s_size = cellSize;
+    sprite.s_art_scale = getArtScale(sprite.s_size);
 
     // Physics properties
-    sprite.body.setCircle(235 * size_scaler); // Pixel radius of art asset * scaler
+    sprite.body.setCircle(235 * sprite.s_art_scale); // Pixel radius of art asset * scaler
     sprite.body.linearDamping = CELL_LINEAR_DAMPING;
+    sprite.body.fixedRotation = true;
     //sprite.body.collideWorldBounds = false;
-
-    sprite.width = sprite.width * size_scaler;
-    sprite.height = sprite.height * size_scaler;
 
     // Game properties
     sprite.s_agroDistance = CELL_AGRO_DISTANCE;
     sprite.s_isChasing = false;
-    if(i % 2 == 1)
-    {
-        sprite.s_cellType = "white";
-    }
-    else
-    {
-        sprite.s_cellType = "red"; 
-    }
+    sprite.scale.set(sprite.s_art_scale);
 
     // Debug properties
     sprite.s_number = i;
@@ -54,7 +88,6 @@ function createEnemy(i, posX, posY, cells) {
         {
             this.s_isChasing = false;
         }
-
         if(this.s_isChasing)
         {
             // Get normalized vector towards player
@@ -112,7 +145,22 @@ function createEnemy(i, posX, posY, cells) {
                 this.body.velocity.y = velocity;
             }
         }
+        else
+        {
+            //TODO: Random movements
+        }
     };
+
+    sprite.updateRotation = function(){
+        // Rotate front sprite
+        var arrayLength = this.children.length;
+        for (var i = 0; i < arrayLength; i++) {
+            this.children[i].angle += 0.1;
+            this.children[i].angle += 0.1;
+        }
+        // Rotate back sprite
+        this.body.angularVelocity = -0.1;
+    }
 
     sprite.eat = function(virus){
 
@@ -128,11 +176,21 @@ function createEnemies(virus) {
     cells.enableBody = true;
     cells.physicsBodyType = Phaser.Physics.BOX2D;
 
-    for (var i = 0; i < 2; i++)
+    // DEBUG
+    var x = 300; // = game.world.randomX
+    var y = 300; // = game.world.randomY
+    var size = 1; // =  Math.floor((Math.random() * 10) + 1)
+    for (var i = 0; i < 10; i++)
     {
+        var cellType = "white";
+        if(i % 2 == 1)
+        {
+            cellType = "red";
+        }
         // TODO: Don't spawn near player
         // TODO: randomX should take into account sprite size so it doesnt spawn in a wall
-        enemy = createEnemy(i, game.world.randomX, game.world.randomY, cells);
+        enemy = createEnemy(i, x, y, cells, cellType, size);
+        x+= 100;
     }
 
     return cells;

@@ -53,5 +53,6 @@ function update() {
     var arrayLength = state.cells.children.length;
     for (var i = 0; i < arrayLength; i++) {
         state.cells.children[i].updatePosition();
+        state.cells.children[i].updateRotation();
     }
 }
