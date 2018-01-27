@@ -1,23 +1,23 @@
-function createEnemy(virus) {
-    var sprite = cells.create(game.world.randomX, game.world.randomY, 'cell');
+function createEnemy(cells, virus, size) {
+    var cell = cells.create(game.world.randomX, game.world.randomY, 'cell');
 
-    sprite.body.setCircle(16);
-    //sprite.body.collideWorldBounds = false;
+    cell.body.setCircle(16);
+    //cell.body.collideWorldBounds = false;
 
-    sprite.body.setBodyContactCallback(virus.body, collideWithEnemy, this);
+    cell.body.setBodyContactCallback(virus.body, collideWithEnemy, this);
 
-    return sprite;
+    return cell;
 }
 
 function createEnemies(virus) {
-    cells = game.add.group();
+    var cells = game.add.group();
     cells.enableBody = true;
     cells.physicsBodyType = Phaser.Physics.BOX2D;
 
     var enemies = []
     for (var i = 0; i < 50; i++)
     {
-        var enemy = createEnemy(virus);
+        var enemy = createEnemy(cells, virus, i);
         enemies.push(enemy);
     }
 
