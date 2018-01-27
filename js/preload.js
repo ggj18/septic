@@ -18,4 +18,8 @@ function preload() {
     game.load.physics('physicsData', 'assets/physics/background-physics.json');
     game.load.image('virusSmallFront', 'assets/sprites/virusSmallFront.png');
     game.load.image('virusSmallBack', 'assets/sprites/virusSmallBack.png');
+    game.load.image('virusMidFront', 'assets/sprites/virusMidFront.png');
+    game.load.image('virusMidBack', 'assets/sprites/virusMidBack.png');
+    game.load.image('virusLargeFront', 'assets/sprites/virusLargeFront.png');
+    game.load.image('virusLargeBack', 'assets/sprites/virusLargeBack.png');
 }

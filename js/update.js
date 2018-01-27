@@ -55,4 +55,10 @@ function update() {
         state.cells.children[i].updatePosition();
         state.cells.children[i].updateRotation();
     }
+
+    // Update virus size (cant do it in collision loop)
+    if(virus.s_doUpdateSize)
+    {
+        updateVirusSize(virus);
+    }
 }
