@@ -1,19 +1,24 @@
-var playState = { preload: preload, create: create, update: update, render:
-  render };
-
 var bootState = {
   create: function () {
+    // createWebFontConfig(game)
     game.physics.startSystem(Phaser.Physics.BOX2D);
     space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-    
+
     game.state.start('splash');
   }
 }
 
+var playState = {
+    preload: preload,
+    create: create,
+    update: update,
+    render: render
+};
+
 var splashState = {
   create: function () {
-    addText('You can eat things smaller than you. Bigger white cells will kill you. Press space to start.');
     stateCommon(this);
+    var startText = createText(game, overlayMsg.start);
     game.state.add('play', playState);
   },
   update: function () {
@@ -23,8 +28,8 @@ var splashState = {
 
 var winState = {
   create: function () {
-    addText('You WIN!!! Press space to restart.');
     stateCommon(this);
+    createText(game, overlayMsg.win);
   },
   update: function () {
     checkSpacePressed();
@@ -33,10 +38,17 @@ var winState = {
 
 var loseState = {
   create: function () {
-    addText('You LOSE!!! Press space to restart.');
+    // game.world.scale.setTo(1, 1);
     stateCommon(this);
+    var loseText = createText(game, overlayMsg.lose);
   },
   update: function () {
     checkSpacePressed();
   }
+}
+
+var overlayMsg = {
+    start: 'You can eat things smaller than you,\nbigger things kill you.\nPress space to start.',
+    win: 'You WIN!!!\nPress space to restart.',
+    lose: 'You LOSE!!!\nPress space to restart.'
 }

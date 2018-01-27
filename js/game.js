@@ -6,11 +6,8 @@ function lose() {
   game.state.start('lose')
 }
 
-function addText(text) {
-    game.add.text(0,  0, text, { fill: '#ffffff', font: '14pt Arial' });
-}
-
 function stateCommon(obj) {
+    game.world.scale.setTo(1, 1);
     game.stage.backgroundColor = '#000000';
 }
 

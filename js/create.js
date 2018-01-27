@@ -64,8 +64,6 @@ function create() {
 
     cursors = game.input.keyboard.createCursorKeys();
 
-    game.add.text(5,  5, 'Use arrow keys to move.', { fill: '#ffffff', font: '14pt Arial' });
-
     game.camera.follow(state.virus, Phaser.Camera.FOLLOW_TOPDOWN);
 
     // Start zoomed in
