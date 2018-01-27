@@ -50,8 +50,7 @@ function shrinkVirus(enemySize)
 	if(virus.s_size <= 1)
 	{
 		virus.s_size = 1;
-		//TODO
-		//Lose();
+		lose();
 	}
 }
 
