@@ -48,4 +48,10 @@ function update() {
         }
         virus.body.velocity.y = velocity;
     }
+
+    // Update all enemies
+    var arrayLength = cells.children.length;
+    for (var i = 0; i < arrayLength; i++) {
+        cells.children[i].updatePosition();
+    }
 }
