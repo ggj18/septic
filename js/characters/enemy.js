@@ -264,21 +264,15 @@ function createEnemy(i, posX, posY, cells, cellType, cellSize) {
     return sprite;
 }
 
-var TOTAL_ENEMIES = 50;
 var spawnLocations = [
-  [2897, 377],
-  [900, 662],
-  [2292, 458],
-  [2600, 1500],
-  [2500, 2300],
-  [2000, 1900],
-  [2089, 1900],
-  [2200, 3250],
-  [400, 2923],
-  [1150, 2250],
-  [316, 1466],
-  [137, 443],
+  [700, 1300],
+  [2800, 1100],
+  [4140, 320],
+  [5000, 2200],
+  [3175, 3900],
+  [3000, 6000],
 ]
+var TOTAL_ENEMIES = 30 * spawnLocations.length;
 
 /**
  * Returns a "random" number between 0 and 4 giving preference to smaller numbers.
