@@ -3,7 +3,7 @@ CELL_AGRO_DISTANCE = 300.0;
 CELL_SPEED = 100.0;
 CELL_ACCELERATION = 5.0;
 CELL_LINEAR_DAMPING = 0.5;
-CELL_DISABLE_MOVEMENT = true;
+CELL_DISABLE_MOVEMENT = false;
 
 function normalize(point, scale) {
     var norm = Math.sqrt(point.x * point.x + point.y * point.y);
@@ -45,6 +45,27 @@ function getCellArtScale(size){
     return size / 20.0;
 }
 
+function cellDeathAnim(cell)
+{
+    
+    cell.body.velocity.x = 0;
+    cell.body.velocity.y = 0;
+    
+    var scaler = cell.scale.x - 0.005;
+    cell.scale.x = scaler;
+    cell.scale.y = scaler;
+    cell.body.setCircle(235 * scaler); //Radius of art asset * scale factor
+
+    if(cell.scale.x < 0)
+    {
+        cell.s_isDead = true;
+        cell.scale.x = 0;
+        cell.scale.y = 0;
+        cell.destroy();
+        cell.body.destroy();
+    }
+}
+
 function createEnemy(i, posX, posY, cells, cellType, cellSize) {
     var virus = state.virus;
 
@@ -75,6 +96,8 @@ function createEnemy(i, posX, posY, cells, cellType, cellSize) {
     sprite.s_agroDistance = CELL_AGRO_DISTANCE;
     sprite.s_isChasing = false;
     sprite.scale.set(sprite.s_art_scale);
+    sprite.s_isDying = false;
+    sprite.s_isDead = false;
 
     // Debug properties
     sprite.s_number = i;
@@ -166,10 +189,6 @@ function createEnemy(i, posX, posY, cells, cellType, cellSize) {
         // Rotate back sprite
         this.body.angularVelocity = -0.1;
     }
-
-    sprite.eat = function(virus){
-
-    };
 
     sprite.body.setBodyContactCallback(state.virus.body, collideWithEnemy, this);
 
