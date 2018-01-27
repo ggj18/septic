@@ -54,6 +54,11 @@ function growVirus(enemySize)
 	// We can't update our circle size mid-collision, else we crash the physics. Do it in a future update cycle
 	virus.s_doUpdateSize = true;
 	virus.angularVelocity += 0.5;
+
+	if(virus.s_size >= 90)
+	{
+		win();
+	}
 }
 
 function shrinkVirus(enemySize)
