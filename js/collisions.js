@@ -17,7 +17,7 @@ function collideWithEnemy(enemyCellBody, virusBody, fixture1, fixture2, begin) {
     {
         killCell(enemyCellBody, virusBody);
     }
-    else if(enemyCellBody.sprite.s_size > virusBody.sprite.s_size)
+    else if(enemyCellBody.sprite.s_cellType == "white" && enemyCellBody.sprite.s_size > virusBody.sprite.s_size)
     {
         shrinkVirus(enemyCellBody.sprite.s_size);
     }
