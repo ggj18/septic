@@ -33,6 +33,8 @@ var game = new Phaser.Game(1024, 768, Phaser.AUTO, 'septic');
 game.state.add('play', playState);
 game.state.add('boot', bootState);
 game.state.add('splash', splashState);
+game.state.add('win', winState);
+game.state.add('lose', loseState);
 game.state.start('boot')
 
 var virus;
