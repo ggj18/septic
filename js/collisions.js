@@ -1,14 +1,19 @@
 
-function collideWithEnemy(enemyCellBody, virus, fixture1, fixture2, begin) {
+function collideWithEnemy(enemyCellBody, virusBody, fixture1, fixture2, begin) {
 
     if(!begin) {
         return;
     }
 
-    if(virus.sprite.s_size > enemyCellBody.sprite.s_size)
+    if(virusBody.sprite.s_size > enemyCellBody.sprite.s_size)
     {
-        killCell(enemyCellBody, virus.body);
+        killCell(enemyCellBody, virusBody);
     }
+    else if(enemyCellBody.sprite.s_size > virusBody.sprite.s_size)
+    {
+        shrinkVirus(enemyCellBody.sprite.s_size);
+    }
+    // else bounce off
   
 }
 
