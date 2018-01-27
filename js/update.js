@@ -1,23 +1,51 @@
 function update() {
     var virus = state.virus;
 
-    virus.body.setZeroVelocity();
+    PLAYER_ACCELERATION = 5.0;
+    PLAYER_MAX_SPEED = 200.0;
+    PLAYER_LINEAR_DAMPING = 0.5;
+
+    virus.body.linearDamping = PLAYER_LINEAR_DAMPING;
 
     if (cursors.left.isDown)
     {
-        virus.body.moveLeft(200);
+        velocity = virus.body.velocity.x;
+        velocity -= PLAYER_ACCELERATION;
+        if (velocity <= (PLAYER_MAX_SPEED * -1.0))
+        {
+            velocity = (PLAYER_MAX_SPEED * -1.0);
+        }
+        virus.body.velocity.x = velocity;
     }
     else if (cursors.right.isDown)
     {
-        virus.body.moveRight(200);
+        velocity = virus.body.velocity.x;
+        velocity += PLAYER_ACCELERATION;
+        if (velocity >= PLAYER_MAX_SPEED)
+        {
+            velocity = PLAYER_MAX_SPEED;
+        }
+        virus.body.velocity.x = velocity;
     }
 
     if (cursors.up.isDown)
     {
-        virus.body.moveUp(200);
+        velocity = virus.body.velocity.y;
+        velocity -= PLAYER_ACCELERATION;
+        if (velocity <= (PLAYER_MAX_SPEED * -1.0))
+        {
+            velocity = (PLAYER_MAX_SPEED * -1.0);
+        }
+        virus.body.velocity.y = velocity;
     }
     else if (cursors.down.isDown)
     {
-        virus.body.moveDown(200);
+        velocity = virus.body.velocity.y;
+        velocity += PLAYER_ACCELERATION;
+        if (velocity >= PLAYER_MAX_SPEED)
+        {
+            velocity = PLAYER_MAX_SPEED;
+        }
+        virus.body.velocity.y = velocity;
     }
 }
