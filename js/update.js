@@ -1,8 +1,8 @@
 function update() {
     var virus = state.virus;
 
-    PLAYER_ACCELERATION = 5.0;
-    PLAYER_MAX_SPEED = 200.0;
+    PLAYER_ACCELERATION = 10.0;
+    PLAYER_MAX_SPEED = 250.0;
     PLAYER_LINEAR_DAMPING = 0.5;
 
     virus.body.linearDamping = PLAYER_LINEAR_DAMPING;
