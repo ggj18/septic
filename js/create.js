@@ -3,7 +3,7 @@
  */
 state = {
   virus: null,
-  enemies: null
+  cells: null
 };
 
 function create() {
@@ -13,7 +13,7 @@ function create() {
     game.physics.box2d.setBoundsToWorld();
 
     state.virus = createVirus();
-    state.enemies = createEnemies(state.virus);
+    state.cells = createEnemies(state.virus);
 
     cursors = game.input.keyboard.createCursorKeys();
 

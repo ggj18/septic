@@ -50,8 +50,8 @@ function update() {
     }
 
     // Update all enemies
-    var arrayLength = cells.children.length;
+    var arrayLength = state.cells.children.length;
     for (var i = 0; i < arrayLength; i++) {
-        cells.children[i].updatePosition();
+        state.cells.children[i].updatePosition();
     }
 }

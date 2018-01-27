@@ -1,5 +1,3 @@
-function createEnemy(cells, virus, size) {
-    var cell = cells.create(game.world.randomX, game.world.randomY, 'cell');
 
 CELL_AGRO_DISTANCE = 300.0;
 CELL_SPEED = 100.0;
@@ -15,7 +13,8 @@ function normalize(point, scale) {
     return point;
 }
 
-function createEnemy(i, posX, posY) {
+function createEnemy(i, posX, posY, cells) {
+   var virus = state.virus;
     var sprite = cells.create(posX, posY, 'redCell');
     sprite.s_size = 1;
 
@@ -119,7 +118,7 @@ function createEnemy(i, posX, posY) {
 
     };
 
-    sprite.body.setBodyContactCallback(virus.body, onCollision, this);
+    sprite.body.setBodyContactCallback(state.virus.body, collideWithEnemy, this);
 
     return sprite;
 }
@@ -133,8 +132,8 @@ function createEnemies(virus) {
     {
         // TODO: Don't spawn near player
         // TODO: randomX should take into account sprite size so it doesnt spawn in a wall
-        createEnemy(i, game.world.randomX, game.world.randomY);
+        enemy = createEnemy(i, game.world.randomX, game.world.randomY, cells);
     }
 
-    return enemies;
+    return cells;
 }
