@@ -195,7 +195,8 @@ function createEnemies(virus) {
         // TODO: Don't spawn near player
         // TODO: randomX should take into account sprite size so it doesnt spawn in a wall
         enemy = createEnemy(i, x, y, cells, cellType, size);
-        x+= 100;
+        x+= 200;
+        y+= 200;
     }
 
     return cells;
