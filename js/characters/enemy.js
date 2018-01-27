@@ -1,5 +1,5 @@
 
-CELL_AGRO_DISTANCE = 300.0;
+CELL_AGRO_DISTANCE = 200.0;
 CELL_SPEED = 100.0;
 CELL_ACCELERATION = 5.0;
 CELL_LINEAR_DAMPING = 0.5;
@@ -17,12 +17,12 @@ function normalize(point, scale) {
 function getCellArt(size, cellType, front=true){
     if(cellType == "white")
     {
-        if(size <= 3)
+        if(size <= 30)
         {
             if(front) return "WBCsmallFront";
             else return "WBCsmallBack";
         }
-        else if(size <= 6)
+        else if(size <= 60)
         {
             if(front) return "WBCmedFront";
             else return "WBCmedBack";
@@ -41,8 +41,32 @@ function getCellArt(size, cellType, front=true){
 
 function getCellArtScale(size){
     // The size determines the scaler for art/physics
-    // Map size 1-10 to 0.1-1.0
-    return size / 20.0;
+    // Map size 1-100 to 0.05-0.5
+    var result = 0.5;
+    if(size < 10)
+    {
+        result = 0.05;
+    } else if (size < 20) {
+        result = 0.10;
+    } else if (size < 30) {
+        result = 0.15;
+    } else if (size < 40) {
+        result = 0.20;
+    } else if (size < 50) {
+        result = 0.25;
+    } else if (size < 60) {
+        result = 0.30;
+    } else if (size < 70) {
+        result = 0.35;
+    } else if (size < 80) {
+        result = 0.40;
+    } else if (size < 90) {
+        result = 0.45;
+    } else {
+        result = 0.5;
+    }
+
+    return result;
 }
 
 function cellDeathAnim(cell)
@@ -214,10 +238,14 @@ function createEnemies(virus) {
         }
         // TODO: Don't spawn near player
         // TODO: randomX should take into account sprite size so it doesnt spawn in a wall
-        enemy = createEnemy(i, x, y, cells, cellType, size);
+        createEnemy(i, x, y, cells, cellType, size);
+        //createEnemy(i, x + 50, y, cells, cellType, size);
+        //createEnemy(i, x - 50, y, cells, cellType, size);
+        //createEnemy(i, x - 50, y + 50, cells, cellType, size);
+        //createEnemy(i, x - 50, y - 50, cells, cellType, size);
         x+= 200;
         y+= 200;
-        size += 1;
+        if(i % 2 == 1) size += 20;
     }
 
     return cells;
