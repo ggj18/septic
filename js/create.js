@@ -9,7 +9,7 @@ state = {
 function create() {
     game.physics.startSystem(Phaser.Physics.BOX2D);
     game.physics.box2d.restitution = 0.9;
-    game.world.setBounds(0, 0, 2000, 2500);
+    game.world.setBounds(0, 0, 7000, 5600);
     game.physics.box2d.setBoundsToWorld();
     game.stage.backgroundColor = '#ffffff';
 
