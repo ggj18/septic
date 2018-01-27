@@ -12,7 +12,7 @@ var bootState = {
 
 var splashState = {
   create: function () {
-    addText('You can eat things smaller than you, bigger things kill you. Press space to start.');
+    addText('You can eat things smaller than you. Bigger white cells will kill you. Press space to start.');
     stateCommon(this);
     game.state.add('play', playState);
   },
