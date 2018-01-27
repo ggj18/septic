@@ -13,18 +13,19 @@ function normalize(point, scale) {
     return point;
 }
 
-function createEnemy(i) {
+function createEnemy(i, posX, posY) {
+    var sprite = cells.create(posX, posY, 'redCell');
 
-    //var sprite = cells.create(game.world.randomX, game.world.randomY, 'cell');
-    // DEBUG
-    var sprite = cells.create(350, 350, 'cell');
-
-    //sprite.addChild(game.add.sprite('virus'));
+    // TODO: Hook up to size
+    var size_scaler = 0.5;
 
     // Physics properties
-    sprite.body.setCircle(16);
+    sprite.body.setCircle(235 * size_scaler); // Pixel radius of art asset * scaler
     sprite.body.linearDamping = CELL_LINEAR_DAMPING;
     //sprite.body.collideWorldBounds = false;
+
+    sprite.width = sprite.width * size_scaler;
+    sprite.height = sprite.height * size_scaler;
 
     // Game properties
     sprite.s_agroDistance = CELL_AGRO_DISTANCE;
@@ -42,7 +43,6 @@ function createEnemy(i) {
     sprite.s_number = i;
 
     sprite.updatePosition = function(){
-
         var distance = Math.sqrt((Math.pow(virus.x - this.x, 2) + Math.pow(virus.y - this.y, 2)))
         if(distance < this.s_agroDistance)
         {
@@ -110,7 +110,6 @@ function createEnemy(i) {
                 this.body.velocity.y = velocity;
             }
         }
-
     };
 
     sprite.eat = function(virus){
@@ -127,8 +126,10 @@ function createEnemies(virus) {
     cells.enableBody = true;
     cells.physicsBodyType = Phaser.Physics.BOX2D;
 
-    for (var i = 0; i < 1; i++)
+    for (var i = 0; i < 2; i++)
     {
-        createEnemy(i);
+        // TODO: Don't spawn near player
+        // TODO: randomX should take into account sprite size so it doesnt spawn in a wall
+        createEnemy(i, game.world.randomX, game.world.randomY);
     }
 }
