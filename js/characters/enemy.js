@@ -135,7 +135,7 @@ function createEnemy(i, posX, posY, cells, cellType, cellSize) {
     sprite.s_lastDirectionChangeTimer = 0.0;
     sprite.s_lastDirectionX = 0.0;
     sprite.s_lastDirectionY = 0.0;
-    sprite.s_maxSpeed = 0.0;
+    sprite.s_lastSpeed = 0.0;
 
     // Debug properties
     sprite.s_number = i;
@@ -155,11 +155,10 @@ function createEnemy(i, posX, posY, cells, cellType, cellSize) {
             this.s_isChasing = false;
         }
 
-
         // Choose direction
         var x = 0.0;
         var y = 0.0;
-        var maxSpeed = 0.0;
+        var speed = 0.0;
         var acceleration = 0.0;
         if(this.s_isChasing)
         {
@@ -171,8 +170,17 @@ function createEnemy(i, posX, posY, cells, cellType, cellSize) {
                 x = x / norm;
                 y = y / norm;
             }
-            maxSpeed = CELL_SPEED;
+
+            speed = CELL_SPEED;
             acceleration = CELL_ACCELERATION;
+
+            // Smaller Red cells run away!
+            if(this.s_size <= virus.s_size && this.s_cellType != "white")
+            {
+                x = x * -1.0;
+                y = y * -1.0;
+                acceleration = CELL_ACCELERATION * 0.5;
+            }
         }
         else
         {
@@ -183,12 +191,12 @@ function createEnemy(i, posX, posY, cells, cellType, cellSize) {
                 this.s_lastDirectionChangeTimer = 0.0;
                 sprite.s_lastDirectionX = (Math.random() - 0.5);
                 sprite.s_lastDirectionY = (Math.random() - 0.5);
-                sprite.s_maxSpeed = Math.random() * CELL_SPEED * 0.1; // Slow
+                sprite.s_lastSpeed = Math.random() * CELL_SPEED * 0.1; // Slow
             }
 
             x = sprite.s_lastDirectionX;
             y = sprite.s_lastDirectionY;
-            maxSpeed = sprite.s_maxSpeed;
+            speed = sprite.s_lastSpeed;
             acceleration = CELL_ACCELERATION * 0.5;
         }
 
@@ -196,8 +204,8 @@ function createEnemy(i, posX, posY, cells, cellType, cellSize) {
         if (sprite.s_cellType == "white")
         {
             // Set velocity to vector directly
-            this.body.velocity.x = x * maxSpeed;
-            this.body.velocity.y = y * maxSpeed;
+            this.body.velocity.x = x * speed;
+            this.body.velocity.y = y * speed;
         } else {
 
             // x
