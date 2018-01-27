@@ -27,6 +27,14 @@ function createEnemy(i) {
     // Game properties
     sprite.s_agroDistance = CELL_AGRO_DISTANCE;
     sprite.s_isChasing = false;
+    if(i % 2 == 0)
+    {
+        sprite.s_cellType = "white";
+    }
+    else
+    {
+        sprite.s_cellType = "red"; 
+    }
 
     // Debug properties
     sprite.s_number = i;
@@ -46,14 +54,6 @@ function createEnemy(i) {
         if(this.s_isChasing)
         {
             // Get normalized vector towards player
-            this.body.velocity.x = virus.x - this.x;
-            this.body.velocity.y = virus.y - this.y;
-            var vector = normalize(this.body.velocity, 1.0);
-            this.body.velocity.x = vector.x * CELL_SPEED;
-            this.body.velocity.y = vector.y * CELL_SPEED;
-
-            /*
-            // Get normalized vector towards player
             var x = virus.x - this.x;
             var y = virus.y - this.y;
             var norm = Math.sqrt(x * x + y * y);
@@ -62,24 +62,30 @@ function createEnemy(i) {
                 y = 1.0 * y / norm;
             }
 
-            // Add vector to current speed
-            velocity = this.body.velocity.x;
-            velocity += CELL_ACCELERATION * x;
-            if (velocity >= CELL_SPEED)
+            if (this.s_swarm)
             {
-                velocity = CELL_SPEED;
-            }
-            this.body.velocity.x = velocity;
-            
+                // Set velocity to vector directly
+                this.body.velocity.x = x * CELL_SPEED;
+                this.body.velocity.y = y * CELL_SPEED;
+            } else {
+                // Add vector to current speed
+                velocity = this.body.velocity.x;
+                velocity += CELL_ACCELERATION * x;
+                if (velocity >= CELL_SPEED)
+                {
+                    velocity = CELL_SPEED;
+                }
+                this.body.velocity.x = velocity;
+                
 
-            velocity = this.body.velocity.y;
-            velocity += CELL_ACCELERATION * y;
-            if (velocity < CELL_SPEED)
-            {
-                velocity = CELL_SPEED;
+                velocity = this.body.velocity.y;
+                velocity += CELL_ACCELERATION * y;
+                if (velocity < CELL_SPEED)
+                {
+                    velocity = CELL_SPEED;
+                }
+                this.body.velocity.y = velocity;
             }
-            this.body.velocity.y = velocity;
-            */
         }
 
     };
