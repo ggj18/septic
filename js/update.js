@@ -52,8 +52,18 @@ function update() {
     // Update all enemies
     var arrayLength = state.cells.children.length;
     for (var i = 0; i < arrayLength; i++) {
-        state.cells.children[i].updatePosition();
-        state.cells.children[i].updateRotation();
+        var cell = state.cells.children[i];
+        if(cell == undefined)
+            continue;
+
+        if(cell.s_isDying && ! cell.s_isDead) {
+            cellDeathAnim(cell);
+        }
+
+        if(!cell.s_isDying) {
+            cell.updatePosition();
+            cell.updateRotation();
+        }
     }
 
     // Update virus size (cant do it in collision loop)
