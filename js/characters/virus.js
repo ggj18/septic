@@ -1,4 +1,11 @@
 
+// Get the linear interpolation between two value
+function lerp(value1, value2, amount) {
+    amount = amount < 0 ? 0 : amount;
+    amount = amount > 1 ? 1 : amount;
+    return value1 + (value2 - value1) * amount;
+}
+
 function getVirusArt(size, front=true){
     if(size <= 3)
     {
@@ -20,7 +27,7 @@ function getVirusArt(size, front=true){
 function getVirusArtScale(size){
     // The size determines the scaler for art/physics
     // Map size 1-10 to 0.1-1.0
-    return size / 10.0;
+    return (size - 1) / 20.0;
 }
 
 function growVirus(enemySize)
@@ -61,6 +68,21 @@ function updateVirusSize(virus)
     // Update physics circle
     virus.body.setCircle(235 * virus.s_art_scale); //Radius of art asset * scale factor
 
+	// Update game world scale
+	// Size 1 = scale 1. Size 10 = scale 0.4
+    if(virus.s_size <= 3)
+    {
+        game.world.scale.setTo(1.0, 1.0);
+    }
+    else if(virus.s_size <= 6)
+    {
+        game.world.scale.setTo(0.7, 0.7);
+    }
+    else
+    {
+        game.world.scale.setTo(0.4, 0.4);
+    }
+
     virus.s_doUpdateSize = false;
 }
 
@@ -74,7 +96,7 @@ function createVirus() {
 
     // Gameplay properties
     virus.smoothed = false;
-    virus.s_size = 2;
+    virus.s_size = 2; //Min = 2, Max = 10
     virus.s_doUpdateSize = false;
 
     // Physics properties
