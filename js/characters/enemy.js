@@ -5,6 +5,10 @@ CELL_ACCELERATION = 5.0;
 CELL_LINEAR_DAMPING = 0.5;
 CELL_DISABLE_MOVEMENT = false;
 
+function randomNb(min, max) {
+  return Math.floor(Math.random() * max) + min  
+}
+
 function normalize(point, scale) {
     var norm = Math.sqrt(point.x * point.x + point.y * point.y);
     if (norm != 0) { // as3 return 0,0 for a point of zero length
@@ -106,6 +110,12 @@ function createEnemy(i, posX, posY, cells, cellType, cellSize) {
     {
         sprite = cells.create(posX, posY, getCellArt(cellSize, cellType, front=false));
     }
+
+
+    // Give it a random velocity to start with.
+    sprite.body.velocity.x = randomNb(-200, 200)
+    sprite.body.velocity.y = randomNb(-200, 200)
+
     sprite.s_cellType =cellType;
     sprite.s_size = cellSize;
     sprite.s_art_scale = getCellArtScale(sprite.s_size);
@@ -122,6 +132,10 @@ function createEnemy(i, posX, posY, cells, cellType, cellSize) {
     sprite.scale.set(sprite.s_art_scale);
     sprite.s_isDying = false;
     sprite.s_isDead = false;
+    sprite.s_lastDirectionChangeTimer = 0.0;
+    sprite.s_lastDirectionX = 0.0;
+    sprite.s_lastDirectionY = 0.0;
+    sprite.s_maxSpeed = 0.0;
 
     // Debug properties
     sprite.s_number = i;
@@ -140,66 +154,89 @@ function createEnemy(i, posX, posY, cells, cellType, cellSize) {
         {
             this.s_isChasing = false;
         }
+
+
+        // Choose direction
+        var x = 0.0;
+        var y = 0.0;
+        var maxSpeed = 0.0;
+        var acceleration = 0.0;
         if(this.s_isChasing)
         {
             // Get normalized vector towards player
-            var x = virus.x - this.x;
-            var y = virus.y - this.y;
+            x = virus.x - this.x;
+            y = virus.y - this.y;
             var norm = Math.sqrt(x * x + y * y);
             if (norm != 0) { // as3 return 0,0 for a point of zero length
                 x = x / norm;
                 y = y / norm;
             }
-
-            if (sprite.s_cellType == "white")
-            {
-                // Set velocity to vector directly
-                this.body.velocity.x = x * CELL_SPEED;
-                this.body.velocity.y = y * CELL_SPEED;
-            } else {
-
-                // x
-                velocity = this.body.velocity.x;
-                velocity += CELL_ACCELERATION * x;
-                if(x < 0)
-                {
-                    if (velocity > CELL_SPEED)
-                    {
-                        velocity = CELL_SPEED;
-                    }
-                }
-                else
-                {
-                    if (velocity < (CELL_SPEED * -1.0))
-                    {
-                        velocity = (CELL_SPEED * -1.0);
-                    }
-                }
-                this.body.velocity.x = velocity;
-                
-                // y
-                velocity = this.body.velocity.y;
-                velocity += CELL_ACCELERATION * y;
-                if(y < 0)
-                {
-                    if (velocity > CELL_SPEED)
-                    {
-                        velocity = CELL_SPEED;
-                    }
-                }
-                else
-                {
-                    if (velocity < (CELL_SPEED * -1.0))
-                    {
-                        velocity = (CELL_SPEED * -1.0);
-                    }
-                }
-                this.body.velocity.y = velocity;
-            }
+            maxSpeed = CELL_SPEED;
+            acceleration = CELL_ACCELERATION;
         }
         else
         {
-            //TODO: Random movements
+            // Not chasing, just wandering around
+            this.s_lastDirectionChangeTimer += game.time.elapsedMS;
+            if (this.s_lastDirectionChangeTimer > 5000)
+            {
+                this.s_lastDirectionChangeTimer = 0.0;
+                sprite.s_lastDirectionX = (Math.random() - 0.5);
+                sprite.s_lastDirectionY = (Math.random() - 0.5);
+                sprite.s_maxSpeed = Math.random() * CELL_SPEED * 0.1; // Slow
+            }
+
+            x = sprite.s_lastDirectionX;
+            y = sprite.s_lastDirectionY;
+            maxSpeed = sprite.s_maxSpeed;
+            acceleration = CELL_ACCELERATION * 0.5;
+        }
+
+        // Accelerate to speed
+        if (sprite.s_cellType == "white")
+        {
+            // Set velocity to vector directly
+            this.body.velocity.x = x * maxSpeed;
+            this.body.velocity.y = y * maxSpeed;
+        } else {
+
+            // x
+            velocity = this.body.velocity.x;
+            velocity += acceleration * x;
+            if(x < 0)
+            {
+                if (velocity > CELL_SPEED)
+                {
+                    velocity = CELL_SPEED;
+                }
+            }
+            else
+            {
+                if (velocity < (CELL_SPEED * -1.0))
+                {
+                    velocity = (CELL_SPEED * -1.0);
+                }
+            }
+            this.body.velocity.x = velocity;
+            
+            // y
+            velocity = this.body.velocity.y;
+            velocity += acceleration * y;
+            if(y < 0)
+            {
+                if (velocity > CELL_SPEED)
+                {
+                    velocity = CELL_SPEED;
+                }
+            }
+            else
+            {
+                if (velocity < (CELL_SPEED * -1.0))
+                {
+                    velocity = (CELL_SPEED * -1.0);
+                }
+            }
+            this.body.velocity.y = velocity;
         }
     };
 
@@ -219,33 +256,48 @@ function createEnemy(i, posX, posY, cells, cellType, cellSize) {
     return sprite;
 }
 
+var TOTAL_ENEMIES = 50;
+var spawnLocations = [
+  [2897, 377],
+  [900, 662],
+]
+
+/**
+ * Returns a "random" number between 0 and 4 giving preference to smaller numbers.
+ */
+function getRandomEnemySize() {
+  var SMALL_THRESHOLD = 75;
+  var MEDIUM_THRESHOLD = 90;
+
+  var nb = randomNb(0, 100);
+  if(nb < SMALL_THRESHOLD) {
+    return 0;
+  } else if (nb < MEDIUM_THRESHOLD) {
+    return randomNb(1,2);
+  } else {
+    return randomNb(3,4);
+  }
+}
+
 function createEnemies(virus) {
     var cells = game.add.group();
     cells.enableBody = true;
     cells.physicsBodyType = Phaser.Physics.BOX2D;
 
-    // DEBUG
-    var x = 300; // = game.world.randomX
-    var y = 300; // = game.world.randomY
-    var size = 1;
-    for (var i = 0; i < 10; i++)
-    {
-        //var size =  Math.floor((Math.random() * 5) + 1)
-        var cellType = "white";
-        if(i % 2 == 1)
-        {
-            cellType = "red";
-        }
-        // TODO: Don't spawn near player
-        // TODO: randomX should take into account sprite size so it doesnt spawn in a wall
-        createEnemy(i, x, y, cells, cellType, size);
-        //createEnemy(i, x + 50, y, cells, cellType, size);
-        //createEnemy(i, x - 50, y, cells, cellType, size);
-        //createEnemy(i, x - 50, y + 50, cells, cellType, size);
-        //createEnemy(i, x - 50, y - 50, cells, cellType, size);
-        x+= 200;
-        y+= 200;
-        if(i % 2 == 1) size += 20;
+    for (var i = 0; i < TOTAL_ENEMIES; i++) {
+      var randomSpawnpoint = spawnLocations[Math.floor(Math.random()*spawnLocations.length)]
+      var x = randomSpawnpoint[0];
+      var y = randomSpawnpoint[1]; 
+
+      var nb = getRandomEnemySize();
+      var size = (nb * 20) + 1;
+
+      var cellType = "white";
+      if(i % 2 == 1) {
+          cellType = "red";
+      }
+
+      enemy = createEnemy(i, x, y, cells, cellType, size);
     }
 
     return cells;
