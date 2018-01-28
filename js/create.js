@@ -53,6 +53,7 @@ function updateCamera()
 }
 
 function create() {
+    alreadyInfectedHeart = false
     game.physics.box2d.restitution = 0.9;
     game.world.setBounds(0, 0, 5600, 7000);
     game.physics.box2d.setBoundsToWorld();
