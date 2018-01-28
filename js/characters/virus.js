@@ -1,16 +1,16 @@
 
 
 function getVirusArt(size, front=true){
-	if(size <= 11)
+	if(size < 10)
 	{
 		return "virusTiny";
 	}
-    else if(size <= 30)
+    else if(size < 30)
     {
         if(front) return "virusSmallFront";
         else return "virusSmallBack";
     }
-    else if(size <= 60)
+    else if(size < 50)
     {
         if(front) return "virusMidFront";
         else return "virusMidBack";
@@ -25,30 +25,7 @@ function getVirusArt(size, front=true){
 function getVirusArtScale(size){
     // The size determines the scaler for art/physics
     // Map size 1-100 to 0.1-1.0
-   	var result = 0.5;
-    if(size < 10)
-    {
-        result = 0.05;
-    } else if (size < 20) {
-        result = 0.10;
-    } else if (size < 30) {
-        result = 0.15;
-    } else if (size < 40) {
-        result = 0.20;
-    } else if (size < 50) {
-        result = 0.25;
-    } else if (size < 60) {
-        result = 0.30;
-    } else if (size < 70) {
-        result = 0.35;
-    } else if (size < 80) {
-        result = 0.40;
-    } else if (size < 90) {
-        result = 0.45;
-    } else {
-        result = 0.5;
-    }
-    return result;
+    return lerp(0.05, 0.5, size / 100);
 }
 
 function growVirus(enemySize)
