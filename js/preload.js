@@ -10,6 +10,9 @@ function preload() {
     game.load.image('WBClargeBack', 'assets/sprites/WBClargeBack.png');
 
     game.load.image('background', 'assets/tilemaps/Background.png');
+    game.load.image('titleScreen', 'assets/tilemaps/TitleScreen.png');
+    game.load.image('winScreen', 'assets/tilemaps/WinScreen.png');
+    game.load.image('loseScreen', 'assets/tilemaps/LoseScreen.png');
     game.load.image('workaround', 'assets/sprites/super-workaround.png');
 
     game.load.physics('physicsData', 'assets/physics/background-physics.json');
