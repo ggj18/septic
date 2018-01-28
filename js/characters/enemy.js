@@ -309,9 +309,15 @@ function createEnemy(i, posX, posY, cells, cellType, cellSize) {
         this.body.angularVelocity = -0.1;
     }
 
+    // Collide with virus
     sprite.body.setBodyContactCallback(state.virus.body, collideWithEnemy, this);
-    sprite.body.setCategoryContactCallback(1, collideWithOtherCell, this);
-    sprite.body.setCollisionCategory(1);
+
+    // Collide with other cells
+    if (sprite.s_cellType == "red")
+    {
+        sprite.body.setCategoryContactCallback(1, collideWithOtherCell, this);
+        sprite.body.setCollisionCategory(1);
+    }
 
     return sprite;
 }
@@ -332,6 +338,13 @@ var miniSpawnLocations = [
   [740, 1800],
   [3800, 130],
   [3300, 270],
+]
+
+var handPlacedReds = [
+    [1860, 400, 1],
+    [1760, 420, 1],
+    [1690, 430, 1],
+    [1900, 520, 40],
 ]
 
 var TOTAL_ENEMIES = 30 * spawnLocations.length;
@@ -393,6 +406,17 @@ function createEnemies(virus) {
 
       enemy = createEnemy(i, x, y, cells, cellType, size);
     }
+
+    // Hand placed
+    for (var i = 0; i < handPlacedReds.length; i++) {
+        var spawnPoint = handPlacedReds[i];
+        var x = spawnPoint[0];
+        var y = spawnPoint[1];
+        var size = spawnPoint[2]
+
+        enemy = createEnemy(i, x, y, cells, "red", size);
+    }
+
 
     return cells;
 }

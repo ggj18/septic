@@ -48,7 +48,7 @@ var loseState = {
 }
 
 var overlayMsg = {
-    start: 'You can eat things smaller than you,\nbigger things kill you.\nPress space to start.',
+    start: 'Infect cells smaller than you,\nlarger white cells will kill you.\nPress space to start.',
     win: 'You WIN!!!\nPress space to restart.',
     lose: 'You LOSE!!!\nPress space to restart.'
 }
