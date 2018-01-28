@@ -1,6 +1,6 @@
 var bootState = {
+  preload: preload,
   create: function () {
-    // createWebFontConfig(game)
     game.physics.startSystem(Phaser.Physics.BOX2D);
     space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
@@ -9,7 +9,6 @@ var bootState = {
 }
 
 var playState = {
-    preload: preload,
     create: create,
     update: update,
     render: render
