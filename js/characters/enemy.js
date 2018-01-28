@@ -22,22 +22,25 @@ function normalize(point, scale) {
     return point;
 }
 
-function getCellArt(size, cellType, front=true){
+function getCellArt(size, cellType, front=true, glow=false){
     if(cellType == "white")
     {
         if(size <= 30)
         {
             if(front) return "WBCsmallFront";
+            else if(glow) return "WBCsmallBack_glow";
             else return "WBCsmallBack";
         }
         else if(size <= 60)
         {
             if(front) return "WBCmedFront";
+            else if(glow) return "WBCmedBack_glow";
             else return "WBCmedBack";
         }
         else
         {
             if(front) return "WBClargeFront";
+            else if(glow) return "WBClargeBack_glow";
             else return "WBClargeBack";
         }
     }
@@ -155,6 +158,11 @@ function createEnemy(i, posX, posY, cells, cellType, cellSize) {
         spriteFront.anchor.x = 0.5;
         spriteFront.anchor.y = 0.5;
         sprite.addChild(spriteFront);
+
+        var spriteFront2 = game.add.sprite(0, 0, getCellArt(cellSize, cellType, glow=true));
+        spriteFront2.anchor.x = 0.5;
+        spriteFront2.anchor.y = 0.5;
+        sprite.addChild(spriteFront2);
     }
     else
     {
@@ -336,24 +344,56 @@ function createEnemy(i, posX, posY, cells, cellType, cellSize) {
 
     sprite.updateArt = function(){
         if(this.s_cellType == "red")
-        if(this.s_isChasing)
         {
-            var arrayLength = this.children.length;
-            for (var i = 0; i < arrayLength; i++) {
-                if(this.children[i].alpha < 1.0)
-                {
-                    this.children[i].alpha += 0.05;
+            if(this.s_isChasing)
+            {
+                var arrayLength = this.children.length;
+                for (var i = 0; i < arrayLength; i++) {
+                    if(this.children[i].alpha < 1.0)
+                    {
+                        this.children[i].alpha += 0.05;
+                    }
+                    
                 }
-                
+            }
+            else
+            {
+                 var arrayLength = this.children.length;
+                for (var i = 0; i < arrayLength; i++) {
+                    if(this.children[i].alpha > 0.0)
+                    {
+                        this.children[i].alpha -= 0.05;
+                    }
+                }
             }
         }
         else
         {
-             var arrayLength = this.children.length;
-            for (var i = 0; i < arrayLength; i++) {
-                if(this.children[i].alpha > 0.0)
-                {
-                    this.children[i].alpha -= 0.05;
+            if(this.s_isChasing)
+            {
+                var arrayLength = this.children.length;
+                for (var i = 0; i < arrayLength; i++) {
+                    if(i == 0){
+                        continue;
+                    }
+                    if(this.children[i].alpha < 1.0)
+                    {
+                        this.children[i].alpha += 0.05;
+                    }
+                    
+                }
+            }
+            else
+            {
+                 var arrayLength = this.children.length;
+                for (var i = 0; i < arrayLength; i++) {
+                    if(i == 0){
+                        continue;
+                    }
+                    if(this.children[i].alpha > 0.0)
+                    {
+                        this.children[i].alpha -= 0.05;
+                    }
                 }
             }
         }

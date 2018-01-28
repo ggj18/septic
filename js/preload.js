@@ -4,10 +4,13 @@ function preload() {
     game.load.image('redCellDead', 'assets/sprites/RBC_infected.png');
     game.load.image('WBCsmallFront', 'assets/sprites/WBCsmallFront.png');
     game.load.image('WBCsmallBack', 'assets/sprites/WBCsmallBack.png');
+    game.load.image('WBCsmallBack_glow', 'assets/sprites/WBCsmallBack_glow.png');
     game.load.image('WBCmedFront', 'assets/sprites/WBCmedFront.png');
     game.load.image('WBCmedBack', 'assets/sprites/WBCmedBack.png');
+    game.load.image('WBCmedBack_glow', 'assets/sprites/WBCmedBack_glow.png');
     game.load.image('WBClargeFront', 'assets/sprites/WBClargeFront.png');
     game.load.image('WBClargeBack', 'assets/sprites/WBClargeBack.png');
+    game.load.image('WBClargeBack_glow', 'assets/sprites/WBClargeBack_glow.png');
 
     game.load.image('background', 'assets/tilemaps/Background.png');
     game.load.image('titleScreen', 'assets/tilemaps/TitleScreen.png');
