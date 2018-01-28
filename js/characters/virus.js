@@ -47,6 +47,7 @@ function getVirusArtScale(size){
     return result;
 }
 
+alreadyInfectedHeart = false
 function growVirus(enemySize)
 {
 	var virus = state.virus;
@@ -63,9 +64,14 @@ function growVirus(enemySize)
     	setCameraZoomTarget(zoomTarget);
     }
 
-	if(virus.s_size >= 90)
-	{
-		win();
+	if(virus.s_size >= 90) {
+          if (!alreadyInfectedHeart) {
+            var t = game.add.text(420, 40, 'Infect the heart!', { fill: '#ffffff', font: '32pt Arial' });
+            t.fixedToCamera = true;
+            t.cameraOffset.setTo(420, 40);
+          }
+
+          alreadyInfectedHeart = true;
 	}
 }
 

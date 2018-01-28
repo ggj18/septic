@@ -19,4 +19,9 @@ function preload() {
     game.load.image('virusMidBack', 'assets/sprites/virusMidBack.png');
     game.load.image('virusLargeFront', 'assets/sprites/virusLargeFront.png');
     game.load.image('virusLargeBack', 'assets/sprites/virusLargeBack.png');
+
+    game.load.image('heart1', 'assets/sprites/heart_1.png');
+    game.load.image('heart2', 'assets/sprites/heart_2.png');
+    game.load.image('heart3', 'assets/sprites/heart_3.png');
+    game.load.image('heart4', 'assets/sprites/heart_4.png');
 }
