@@ -56,7 +56,7 @@ function collideWithHeart(heart, virus, fixture, fixture2, begin) {
 
   if(virus.sprite.s_size >= 90) {
     if(!state.heartDying) {
-        state.heart.loadTexture("heart1i", 0);
+        state.heart.loadTexture("hearti", 0);
 
         // Kill all enemies
         var arrayLength = state.cells.children.length;
