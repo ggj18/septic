@@ -1,3 +1,14 @@
+function heartAnimation() {
+    var heartArray = [state.heart2, state.heart3, state.heart4];
+    for (var i = 0; i < heartArray.length; i++) {
+        heartArray[i].alpha -= 0.01;
+        if(heartArray[i].alpha <= 0.0)
+        {
+            win();
+        }
+    }
+}
+
 function update() {
     var virus = state.virus;
     state.heart.body.angle += 0.15
@@ -75,6 +86,11 @@ function update() {
     if(virus.s_doUpdateSize)
     {
         updateVirusSize(virus);
+    }
+
+    if(state.heartDying)
+    {
+        heartAnimation();
     }
 
     updateCameraZoom();

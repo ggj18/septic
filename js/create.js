@@ -64,6 +64,7 @@ function create() {
     state.virus = createVirus();
     state.cells = createEnemies(state.virus);
     state.hearte = createHeart();
+    state.heartDying = false;
 
     cursors = game.input.keyboard.createCursorKeys();
 

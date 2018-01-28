@@ -32,6 +32,8 @@ function preload() {
     game.load.image('heart3', 'assets/sprites/heart_3.png');
     game.load.image('heart4', 'assets/sprites/heart_4.png');
 
+    game.load.image('hearti', 'assets/sprites/hearti.png');
+
     game.load.image('virusTiny', 'assets/sprites/virusTiny.png');
 
 }
