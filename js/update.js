@@ -1,5 +1,9 @@
 function update() {
     var virus = state.virus;
+    state.heart.body.angle += 0.15
+    state.heart2.body.angle -= 0.3
+    state.heart3.body.angle += 0.2
+    state.heart4.body.angle -= 0.3
 
     PLAYER_ACCELERATION = 10.0;
     PLAYER_MAX_SPEED = 250.0;
@@ -74,4 +78,5 @@ function update() {
     }
 
     updateCameraZoom();
+
 }

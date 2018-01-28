@@ -48,3 +48,16 @@ function killCell(enemyCellBody) {
     growVirus(enemyCellBody.sprite.s_size);
     killEnemy(enemyCellBody.sprite);
 }
+
+function collideWithHeart(heart, virus, fixture, fixture2, begin) {
+  if(!begin) {
+    return;
+  }
+
+  if(virus.sprite.s_size >= 90) {
+    win();
+  }
+
+
+
+}

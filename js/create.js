@@ -3,7 +3,8 @@
  */
 state = {
   virus: null,
-  cells: null
+  cells: null,
+  heart: null
 };
 
 CAMERA_ZOOM_TIME = 3000; // milliseconds
@@ -61,6 +62,7 @@ function create() {
     createBackground();
     state.virus = createVirus();
     state.cells = createEnemies(state.virus);
+    state.hearte = createHeart();
 
     cursors = game.input.keyboard.createCursorKeys();
 
