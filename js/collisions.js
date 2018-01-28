@@ -57,6 +57,14 @@ function collideWithHeart(heart, virus, fixture, fixture2, begin) {
   if(virus.sprite.s_size >= 90) {
     if(!state.heartDying) {
         state.heart.loadTexture("deadHeart", 0);
+
+        // Kill all enemies
+        var arrayLength = state.cells.children.length;
+        for (var i = 0; i < arrayLength; i++) {
+            var cell = state.cells.children[i];
+            if(cell == undefined) continue;
+            killEnemy(cell);
+        }
     }
     state.heartDying = true;
   }
