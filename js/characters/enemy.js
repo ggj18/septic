@@ -2,6 +2,7 @@
 CELL_AGRO_DISTANCE = 200.0;
 CELL_SPEED = 100.0;
 CELL_ACCELERATION = 5.0;
+CELL_ACCELERATION_RED = 3.0;
 CELL_LINEAR_DAMPING = 0.5;
 CELL_DISABLE_MOVEMENT = false;
 
@@ -72,6 +73,26 @@ function getCellArtScale(size){
     }
 
     return result;
+}
+
+function killEnemy(cell)
+{
+    // White cells play dying animation
+    if (cell.s_cellType == "white")
+    {
+        cell.s_isDying = true;
+    }
+    else
+    {
+        // Red cells change art and go inert
+        cell.s_isDead = true;
+        var arrayLength = cell.children.length;
+        for (var i = 0; i < arrayLength; i++) {
+            cell.children[i].destroy();
+        }
+        cell.loadTexture("redCellDead", 0);
+        cell.body.linearDamping = 3.0;
+    } 
 }
 
 function cellDeathAnim(cell)
@@ -178,6 +199,11 @@ function createEnemy(i, posX, posY, cells, cellType, cellSize) {
 
             speed = CELL_SPEED;
             acceleration = CELL_ACCELERATION;
+
+            if(this.s_cellType == "red")
+            {
+                acceleration = CELL_ACCELERATION_RED;
+            }
 
             // Smaller cells run away!
             if(this.s_size <= virus.s_size)

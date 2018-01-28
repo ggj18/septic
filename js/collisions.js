@@ -28,7 +28,7 @@ function collideWithEnemy(enemyCellBody, virusBody, fixture1, fixture2, begin) {
 function killCell(enemyCellBody, virusBody) {
 
     growVirus(enemyCellBody.sprite.s_size);
-    enemyCellBody.sprite.s_isDying = true;
+    killEnemy(enemyCellBody.sprite);
     //enemyCellBody.sprite.destroy();
     //enemyCellBody.destroy();
 }

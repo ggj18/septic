@@ -60,7 +60,7 @@ function update() {
             cellDeathAnim(cell);
         }
 
-        if(!cell.s_isDying) {
+        if(!cell.s_isDying && !cell.s_isDead) {
             cell.updatePosition();
             cell.updateRotation();
         }
