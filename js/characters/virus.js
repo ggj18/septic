@@ -50,7 +50,7 @@ function getVirusArtScale(size){
 function growVirus(enemySize)
 {
 	var virus = state.virus;
-	virus.s_size += 2;
+	virus.s_size += 1;
 	// We can't update our circle size mid-collision, else we crash the physics. Do it in a future update cycle
 	virus.s_doUpdateSize = true;
 	virus.angularVelocity += 0.5;
@@ -71,8 +71,10 @@ function growVirus(enemySize)
 
 function shrinkVirus(enemySize)
 {
+	lose();
+	/*
 	var virus = state.virus;
-	virus.s_size -= 10;
+	virus.s_size -= 100;
 	// We can't update our circle size mid-collision, else we crash the physics. Do it in a future update cycle
 	virus.s_doUpdateSize = true;
 	virus.angularVelocity -= 0.5;
@@ -86,6 +88,7 @@ function shrinkVirus(enemySize)
 		virus.s_size = 1;
 		lose();
 	}
+	*/
 }
 
 function updateVirusSize(virus)

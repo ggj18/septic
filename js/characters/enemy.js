@@ -376,7 +376,7 @@ var handPlacedReds = [
     [1900, 520, 40],
 ]
 
-var TOTAL_ENEMIES = 30 * spawnLocations.length;
+var TOTAL_ENEMIES = 50 * spawnLocations.length;
 var TOTAL_ENEMIES_MINI = 3 * miniSpawnLocations.length;
 
 /**
@@ -411,7 +411,8 @@ function createEnemies(virus) {
       var size = (nb * 20) + 1;
 
       var cellType = "red";
-      if(i % 5 == 1) {
+      var nb = randomNb(0, 100);
+      if(nb > 90) {
           cellType = "white";
       }
 
@@ -429,7 +430,7 @@ function createEnemies(virus) {
 
       var cellType = "red";
       var nb = randomNb(0, 100);
-      if(nb > 80) {
+      if(nb > 90) {
           cellType = "white";
       }
 
@@ -445,6 +446,17 @@ function createEnemies(virus) {
 
         enemy = createEnemy(i, x, y, cells, "red", size);
     }
+
+    // One white for every major spawn location
+     for (var i = 0; i < spawnLocations.length; i++) {
+        var spawnPoint = spawnLocations[i];
+        var x = spawnPoint[0];
+        var y = spawnPoint[1];
+        var nb = randomNb(2,4);
+        var size = (nb * 20) + 1;
+
+        enemy = createEnemy(i, x, y, cells, "white", size);
+     }
 
 
     return cells;
