@@ -17,7 +17,7 @@ var playState = {
 var splashState = {
   create: function () {
     stateCommon(this);
-    var startText = createText(game, overlayMsg.start);
+    var titleScreen = game.add.sprite(0, 0, 'titleScreen');
     game.state.add('play', playState);
   },
   update: function () {
@@ -28,7 +28,7 @@ var splashState = {
 var winState = {
   create: function () {
     stateCommon(this);
-    createText(game, overlayMsg.win);
+    var winScreen = game.add.sprite(0, 0, 'winScreen');
   },
   update: function () {
     checkSpacePressed();
@@ -37,9 +37,8 @@ var winState = {
 
 var loseState = {
   create: function () {
-    // game.world.scale.setTo(1, 1);
     stateCommon(this);
-    var loseText = createText(game, overlayMsg.lose);
+    var loseScreen = game.add.sprite(0, 0, 'loseScreen');
   },
   update: function () {
     checkSpacePressed();
