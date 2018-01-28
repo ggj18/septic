@@ -310,6 +310,8 @@ function createEnemy(i, posX, posY, cells, cellType, cellSize) {
     }
 
     sprite.body.setBodyContactCallback(state.virus.body, collideWithEnemy, this);
+    sprite.body.setCategoryContactCallback(1, collideWithOtherCell, this);
+    sprite.body.setCollisionCategory(1);
 
     return sprite;
 }
