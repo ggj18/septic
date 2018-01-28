@@ -19,4 +19,5 @@ function preload() {
     game.load.image('virusMidBack', 'assets/sprites/virusMidBack.png');
     game.load.image('virusLargeFront', 'assets/sprites/virusLargeFront.png');
     game.load.image('virusLargeBack', 'assets/sprites/virusLargeBack.png');
+    game.load.image('virusTiny', 'assets/sprites/virusTiny.png');
 }

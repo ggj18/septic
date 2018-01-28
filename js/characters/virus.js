@@ -1,7 +1,11 @@
 
 
 function getVirusArt(size, front=true){
-    if(size <= 30)
+	if(size <= 11)
+	{
+		return "virusTiny";
+	}
+    else if(size <= 30)
     {
         if(front) return "virusSmallFront";
         else return "virusSmallBack";
