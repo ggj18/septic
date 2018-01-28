@@ -1,5 +1,6 @@
 
-CELL_AGRO_DISTANCE = 200.0;
+CELL_AGRO_DISTANCE = 300.0;
+CELL_AGRO_DISTANCE_RED = 200.0;
 CELL_SPEED = 100.0;
 CELL_ACCELERATION = 5.0;
 CELL_ACCELERATION_RED = 3.0;
@@ -173,7 +174,14 @@ function createEnemy(i, posX, posY, cells, cellType, cellSize) {
     //sprite.body.collideWorldBounds = false;
 
     // Game properties
-    sprite.s_agroDistance = CELL_AGRO_DISTANCE;
+    if(sprite.s_cellType == "red")
+    {
+        sprite.s_agroDistance = CELL_AGRO_DISTANCE_RED;
+    }
+    else
+    {
+        sprite.s_agroDistance = CELL_AGRO_DISTANCE;
+    }
     sprite.s_isChasing = false;
     sprite.scale.set(sprite.s_art_scale);
     sprite.s_isDying = false;
