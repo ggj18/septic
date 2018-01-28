@@ -1,7 +1,7 @@
 function heartAnimation() {
     var heartArray = [state.heart2, state.heart3, state.heart4];
     for (var i = 0; i < heartArray.length; i++) {
-        heartArray[i].alpha -= 0.05;
+        heartArray[i].alpha -= 0.01;
         if(heartArray[i].alpha <= 0.0)
         {
             win();
