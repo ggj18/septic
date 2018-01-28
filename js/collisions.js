@@ -55,9 +55,9 @@ function collideWithHeart(heart, virus, fixture, fixture2, begin) {
   }
 
   if(virus.sprite.s_size >= 90) {
-    win();
+    if(!state.heartDying) {
+        state.heart.loadTexture("deadHeart", 0);
+    }
+    state.heartDying = true;
   }
-
-
-
 }
