@@ -6,6 +6,8 @@ CELL_ACCELERATION = 5.0;
 CELL_ACCELERATION_RED = 3.0;
 CELL_LINEAR_DAMPING = 0.5;
 CELL_DISABLE_MOVEMENT = false;
+CELL_RADIUS = 235;
+CELL_RADIUS_WHITE = 200;
 
 function randomNb(min, max) {
   return Math.floor(Math.random() * max) + min  
@@ -112,7 +114,13 @@ function cellDeathAnim(cell)
         var scaler = cell.scale.x - 0.005;
         cell.scale.x = scaler;
         cell.scale.y = scaler;
-        cell.body.setCircle(235 * scaler); //Radius of art asset * scale factor
+
+        var circleSize = CELL_RADIUS;
+        if(cell.s_cellType == "white")
+        {
+            circleSize = CELL_RADIUS_WHITE;
+        }
+        cell.body.setCircle(circleSize * scaler); //Radius of art asset * scale factor
 
         if(cell.scale.x < 0)
         {
@@ -168,7 +176,12 @@ function createEnemy(i, posX, posY, cells, cellType, cellSize) {
     sprite.s_art_scale = getCellArtScale(sprite.s_size);
 
     // Physics properties
-    sprite.body.setCircle(235 * sprite.s_art_scale); // Pixel radius of art asset * scaler
+    var circleSize = CELL_RADIUS;
+    if(sprite.s_cellType == "white")
+    {
+        circleSize = CELL_RADIUS_WHITE;
+    }
+    sprite.body.setCircle(circleSize * sprite.s_art_scale); // Pixel radius of art asset * scaler
     sprite.body.linearDamping = CELL_LINEAR_DAMPING;
     sprite.body.fixedRotation = true;
     //sprite.body.collideWorldBounds = false;
