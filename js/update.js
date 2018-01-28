@@ -63,6 +63,7 @@ function update() {
         if(!cell.s_isDying && !cell.s_isDead) {
             cell.updatePosition();
             cell.updateRotation();
+            cell.updateArt();
         }
     }
 

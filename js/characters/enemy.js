@@ -40,8 +40,8 @@ function getCellArt(size, cellType, front=true){
     }
     else
     {
-        if(front) return "redCell";
-        else return "redCellGlow";
+        if(front) return "redCellGlow";
+        else return "redCell";
     }
 }
 
@@ -153,6 +153,7 @@ function createEnemy(i, posX, posY, cells, cellType, cellSize) {
         var spriteFront = game.add.sprite(0, 0, getCellArt(cellSize, cellType, front=true));
         spriteFront.anchor.x = 0.5;
         spriteFront.anchor.y = 0.5;
+        spriteFront.alpha = 0.0;
         sprite.addChild(spriteFront);
     }
 
@@ -299,14 +300,42 @@ function createEnemy(i, posX, posY, cells, cellType, cellSize) {
     };
 
     sprite.updateRotation = function(){
-        // Rotate front sprite
-        var arrayLength = this.children.length;
-        for (var i = 0; i < arrayLength; i++) {
-            this.children[i].angle += 0.1;
-            this.children[i].angle += 0.1;
+        if(this.s_cellType == "white")
+        {
+            // Rotate front sprite
+            var arrayLength = this.children.length;
+            for (var i = 0; i < arrayLength; i++) {
+                this.children[i].angle += 0.1;
+                this.children[i].angle += 0.1;
+            }
+            // Rotate back sprite
+            this.body.angularVelocity = -0.1;
         }
-        // Rotate back sprite
-        this.body.angularVelocity = -0.1;
+    }
+
+    sprite.updateArt = function(){
+        if(this.s_cellType == "red")
+        if(this.s_isChasing)
+        {
+            var arrayLength = this.children.length;
+            for (var i = 0; i < arrayLength; i++) {
+                if(this.children[i].alpha < 1.0)
+                {
+                    this.children[i].alpha += 0.05;
+                }
+                
+            }
+        }
+        else
+        {
+             var arrayLength = this.children.length;
+            for (var i = 0; i < arrayLength; i++) {
+                if(this.children[i].alpha > 0.0)
+                {
+                    this.children[i].alpha -= 0.05;
+                }
+            }
+        }
     }
 
     // Collide with virus
