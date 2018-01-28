@@ -2,6 +2,7 @@
 CELL_AGRO_DISTANCE = 200.0;
 CELL_SPEED = 100.0;
 CELL_ACCELERATION = 5.0;
+CELL_ACCELERATION_RED = 3.0;
 CELL_LINEAR_DAMPING = 0.5;
 CELL_DISABLE_MOVEMENT = false;
 
@@ -39,7 +40,8 @@ function getCellArt(size, cellType, front=true){
     }
     else
     {
-        return "redCell";
+        if(front) return "redCellGlow";
+        else return "redCell";
     }
 }
 
@@ -73,24 +75,63 @@ function getCellArtScale(size){
     return result;
 }
 
+function killEnemy(cell)
+{
+    cell.s_isDying = true;
+
+    // White cells play dying animation
+    if (cell.s_cellType == "red")
+    {
+        // Kill glow
+        var arrayLength = cell.children.length;
+        for (var i = 0; i < arrayLength; i++) {
+            cell.children[i].destroy();
+        }
+
+        // Red cells change art and go inert
+        cell.loadTexture("redCellDead", 0);
+        var spriteFront = game.add.sprite(0, 0, "redCell");
+        spriteFront.anchor.x = 0.5;
+        spriteFront.anchor.y = 0.5;
+        spriteFront.alpha = 1.0;
+        cell.addChild(spriteFront);
+
+        cell.body.linearDamping = 3.0;
+        cell.body.mass *= 2.0;
+    } 
+}
+
 function cellDeathAnim(cell)
 {
-    
-    cell.body.velocity.x = 0;
-    cell.body.velocity.y = 0;
-    
-    var scaler = cell.scale.x - 0.005;
-    cell.scale.x = scaler;
-    cell.scale.y = scaler;
-    cell.body.setCircle(235 * scaler); //Radius of art asset * scale factor
-
-    if(cell.scale.x < 0)
+    if(cell.s_cellType == "white")
     {
-        cell.s_isDead = true;
-        cell.scale.x = 0;
-        cell.scale.y = 0;
-        cell.destroy();
-        cell.body.destroy();
+        cell.body.velocity.x = 0;
+        cell.body.velocity.y = 0;
+        
+        var scaler = cell.scale.x - 0.005;
+        cell.scale.x = scaler;
+        cell.scale.y = scaler;
+        cell.body.setCircle(235 * scaler); //Radius of art asset * scale factor
+
+        if(cell.scale.x < 0)
+        {
+            cell.s_isDead = true;
+            cell.scale.x = 0;
+            cell.scale.y = 0;
+            cell.destroy();
+            cell.body.destroy();
+        }
+    }
+    else
+    {
+        var arrayLength = cell.children.length;
+        for (var i = 0; i < arrayLength; i++) {
+            cell.children[i].alpha -= 0.05;
+            if(cell.children[i].alpha <= 0.0)
+            {
+                cell.s_isDead = true;
+            }
+        }
     }
 }
 
@@ -109,6 +150,11 @@ function createEnemy(i, posX, posY, cells, cellType, cellSize) {
     else
     {
         sprite = cells.create(posX, posY, getCellArt(cellSize, cellType, front=false));
+        var spriteFront = game.add.sprite(0, 0, getCellArt(cellSize, cellType, front=true));
+        spriteFront.anchor.x = 0.5;
+        spriteFront.anchor.y = 0.5;
+        spriteFront.alpha = 0.0;
+        sprite.addChild(spriteFront);
     }
 
 
@@ -173,6 +219,11 @@ function createEnemy(i, posX, posY, cells, cellType, cellSize) {
 
             speed = CELL_SPEED;
             acceleration = CELL_ACCELERATION;
+
+            if(this.s_cellType == "red")
+            {
+                acceleration = CELL_ACCELERATION_RED;
+            }
 
             // Smaller cells run away!
             if(this.s_size <= virus.s_size)
@@ -249,17 +300,53 @@ function createEnemy(i, posX, posY, cells, cellType, cellSize) {
     };
 
     sprite.updateRotation = function(){
-        // Rotate front sprite
-        var arrayLength = this.children.length;
-        for (var i = 0; i < arrayLength; i++) {
-            this.children[i].angle += 0.1;
-            this.children[i].angle += 0.1;
+        if(this.s_cellType == "white")
+        {
+            // Rotate front sprite
+            var arrayLength = this.children.length;
+            for (var i = 0; i < arrayLength; i++) {
+                this.children[i].angle += 0.1;
+                this.children[i].angle += 0.1;
+            }
+            // Rotate back sprite
+            this.body.angularVelocity = -0.1;
         }
-        // Rotate back sprite
-        this.body.angularVelocity = -0.1;
     }
 
+    sprite.updateArt = function(){
+        if(this.s_cellType == "red")
+        if(this.s_isChasing)
+        {
+            var arrayLength = this.children.length;
+            for (var i = 0; i < arrayLength; i++) {
+                if(this.children[i].alpha < 1.0)
+                {
+                    this.children[i].alpha += 0.05;
+                }
+                
+            }
+        }
+        else
+        {
+             var arrayLength = this.children.length;
+            for (var i = 0; i < arrayLength; i++) {
+                if(this.children[i].alpha > 0.0)
+                {
+                    this.children[i].alpha -= 0.05;
+                }
+            }
+        }
+    }
+
+    // Collide with virus
     sprite.body.setBodyContactCallback(state.virus.body, collideWithEnemy, this);
+
+    // Collide with other cells
+    if (sprite.s_cellType == "red")
+    {
+        sprite.body.setCategoryContactCallback(1, collideWithOtherCell, this);
+        sprite.body.setCollisionCategory(1);
+    }
 
     return sprite;
 }
@@ -272,7 +359,25 @@ var spawnLocations = [
   [3175, 3900],
   [3000, 6000],
 ]
-var TOTAL_ENEMIES = 30 * spawnLocations.length;
+var miniSpawnLocations = [
+  [4800, 960],
+  [3400, 660],
+  [22300, 640],
+  [1200, 470],
+  [740, 1800],
+  [3800, 130],
+  [3300, 270],
+]
+
+var handPlacedReds = [
+    [1860, 400, 1],
+    [1760, 420, 1],
+    [1690, 430, 1],
+    [1900, 520, 40],
+]
+
+var TOTAL_ENEMIES = 50 * spawnLocations.length;
+var TOTAL_ENEMIES_MINI = 3 * miniSpawnLocations.length;
 
 /**
  * Returns a "random" number between 0 and 4 giving preference to smaller numbers.
@@ -296,21 +401,63 @@ function createEnemies(virus) {
     cells.enableBody = true;
     cells.physicsBodyType = Phaser.Physics.BOX2D;
 
+    // Major spawns
     for (var i = 0; i < TOTAL_ENEMIES; i++) {
       var randomSpawnpoint = spawnLocations[Math.floor(Math.random()*spawnLocations.length)]
+      var x = randomSpawnpoint[0] + (Math.random() * 300);
+      var y = randomSpawnpoint[1] + (Math.random() * 300); 
+
+      var nb = getRandomEnemySize();
+      var size = (nb * 20) + 1;
+
+      var cellType = "red";
+      var nb = randomNb(0, 100);
+      if(nb > 90) {
+          cellType = "white";
+      }
+
+      enemy = createEnemy(i, x, y, cells, cellType, size);
+    }
+
+    // Minor spawns
+    for (var i = 0; i < TOTAL_ENEMIES_MINI; i++) {
+      var randomSpawnpoint = miniSpawnLocations[Math.floor(Math.random()*miniSpawnLocations.length)]
       var x = randomSpawnpoint[0];
       var y = randomSpawnpoint[1]; 
 
       var nb = getRandomEnemySize();
       var size = (nb * 20) + 1;
 
-      var cellType = "white";
-      if(i % 2 == 1) {
-          cellType = "red";
+      var cellType = "red";
+      var nb = randomNb(0, 100);
+      if(nb > 90) {
+          cellType = "white";
       }
 
       enemy = createEnemy(i, x, y, cells, cellType, size);
     }
+
+    // Hand placed
+    for (var i = 0; i < handPlacedReds.length; i++) {
+        var spawnPoint = handPlacedReds[i];
+        var x = spawnPoint[0];
+        var y = spawnPoint[1];
+        var size = spawnPoint[2]
+
+        enemy = createEnemy(i, x, y, cells, "red", size);
+    }
+
+    // One white for every major spawn location
+     for (var i = 0; i < spawnLocations.length; i++) {
+        var spawnPoint = spawnLocations[i];
+        var x = spawnPoint[0];
+        var y = spawnPoint[1];
+        var nb = randomNb(2,4);
+        var size = (nb * 20) + 1;
+
+        enemy = createEnemy(i, x, y, cells, "white", size);
+     }
+
 
     return cells;
 }
