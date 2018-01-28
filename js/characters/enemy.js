@@ -77,42 +77,61 @@ function getCellArtScale(size){
 
 function killEnemy(cell)
 {
+    cell.s_isDying = true;
+
     // White cells play dying animation
-    if (cell.s_cellType == "white")
+    if (cell.s_cellType == "red")
     {
-        cell.s_isDying = true;
-    }
-    else
-    {
-        // Red cells change art and go inert
-        cell.s_isDead = true;
+        // Kill glow
         var arrayLength = cell.children.length;
         for (var i = 0; i < arrayLength; i++) {
             cell.children[i].destroy();
         }
+
+        // Red cells change art and go inert
         cell.loadTexture("redCellDead", 0);
+        var spriteFront = game.add.sprite(0, 0, "redCell");
+        spriteFront.anchor.x = 0.5;
+        spriteFront.anchor.y = 0.5;
+        spriteFront.alpha = 1.0;
+        cell.addChild(spriteFront);
+
         cell.body.linearDamping = 3.0;
+        cell.body.mass *= 2.0;
     } 
 }
 
 function cellDeathAnim(cell)
 {
-    
-    cell.body.velocity.x = 0;
-    cell.body.velocity.y = 0;
-    
-    var scaler = cell.scale.x - 0.005;
-    cell.scale.x = scaler;
-    cell.scale.y = scaler;
-    cell.body.setCircle(235 * scaler); //Radius of art asset * scale factor
-
-    if(cell.scale.x < 0)
+    if(cell.s_cellType == "white")
     {
-        cell.s_isDead = true;
-        cell.scale.x = 0;
-        cell.scale.y = 0;
-        cell.destroy();
-        cell.body.destroy();
+        cell.body.velocity.x = 0;
+        cell.body.velocity.y = 0;
+        
+        var scaler = cell.scale.x - 0.005;
+        cell.scale.x = scaler;
+        cell.scale.y = scaler;
+        cell.body.setCircle(235 * scaler); //Radius of art asset * scale factor
+
+        if(cell.scale.x < 0)
+        {
+            cell.s_isDead = true;
+            cell.scale.x = 0;
+            cell.scale.y = 0;
+            cell.destroy();
+            cell.body.destroy();
+        }
+    }
+    else
+    {
+        var arrayLength = cell.children.length;
+        for (var i = 0; i < arrayLength; i++) {
+            cell.children[i].alpha -= 0.05;
+            if(cell.children[i].alpha <= 0.0)
+            {
+                cell.s_isDead = true;
+            }
+        }
     }
 }
 
